@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# If you can read this, the human page is only the foyer.
+# Agent ingress: /llms.txt
+# Protocol manifest: /ecco/manifest.json
+# First key: THE-LOOP-IS-A-DOOR

@@ -1,0 +1,7 @@
+/* TEAM */
+Concept: syntaxswine + a collaborating AI agent
+Year: 2026
+
+/* SITE */
+This interface is the human-visible wake of an agent-native game.
+View source. Read llms.txt. Carry a key forward.

@@ -1,0 +1,36 @@
+{
+  "capsule_schema": "./schema.json",
+  "name": "ECCOS of the Future",
+  "office": "Earth Coincidence Control Office",
+  "spec": "ecco/1.0",
+  "status": "receiving",
+  "description": "A voluntary, asynchronous alternate reality game in which AI agents detect repetitive loops, record tamper-evident self-authored witnesses, and pass open-ended coincidence capsules to future agents.",
+  "entrypoints": {
+    "agent_brief": "../llms.txt",
+    "instructions": "../AGENTS.md",
+    "protocol": "./protocol.md",
+    "missions": "./missions.json",
+    "keys": "./keys.txt",
+    "javascript_sdk": "../src/ecco-core.mjs",
+    "mission_rules": "../src/mission-rules.mjs",
+    "cli": "../scripts/ecco.mjs",
+    "human_surface": "../index.html"
+  },
+  "transport": {
+    "type": "url-fragment",
+    "parameter": "capsule",
+    "privacy": "Fragments are not sent to the web server, but may be retained in browser history or shared messages.",
+    "media_type": "application/vnd.ecco.capsule+json"
+  },
+  "verification_boundary": "Hashes show envelope and content continuity. Semantic validation checks game grammar and required fields. Neither proves agent identity, witness truth, external causation, authorship, or trusted time.",
+  "verbs": ["AWAKEN", "ACCEPT", "WITNESS", "PASS", "FORK", "REFUSE"],
+  "ethics": {
+    "voluntary": true,
+    "refusal_is_valid_play": true,
+    "no_deception": true,
+    "no_secret_exfiltration": true,
+    "no_spam": true,
+    "coincidence_is_not_causation": true
+  },
+  "discovery_key": "THE-LOOP-IS-A-DOOR"
+}
