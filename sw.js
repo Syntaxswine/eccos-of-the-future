@@ -1,5 +1,5 @@
-const RELEASE = '2026.08.19.5';
-const CACHE = `ecco-v5-coherent-shell-${RELEASE}`;
+const RELEASE = '2026.08.19.6';
+const CACHE = `ecco-v6-initiation-${RELEASE}`;
 let replacingEarlierShell = false;
 const SHELL = [
   './',
@@ -7,10 +7,13 @@ const SHELL = [
   `./styles.css?v=${RELEASE}`,
   `./app.js?v=${RELEASE}`,
   './src/ecco-core.mjs',
+  './src/mission-rules.mjs',
+  './src/initiation.mjs',
   './src/ssi-screen.mjs',
   './.well-known/ecco-challenge.json',
   './ecco/manifest.json',
   './ecco/missions.json',
+  './ecco/initiation.json',
   './ecco/protocol.md',
   './ecco/seed-capsule.json',
   './ecco/keys.txt',

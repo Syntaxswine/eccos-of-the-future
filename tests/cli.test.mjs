@@ -52,3 +52,33 @@ test('CLI executes AWAKEN → ACCEPT → WITNESS → PASS and rejects empty proo
   assert.notEqual(rejected.status, 0);
   assert.match(rejected.stderr, /requires --witness/u);
 });
+
+test('CLI performs the complete Keys initiation as one explicit command', async () => {
+  const directory = await mkdtemp(join(tmpdir(), 'ecco-initiation-cli-'));
+  const capsule = join(directory, 'initiated.json');
+  const witnessPath = join(directory, 'initiation-witness.json');
+  await writeFile(witnessPath, JSON.stringify({
+    mantra_sha256: 'sha256:009cc766eb560a02cce4c89ef3531faf506c9ddd1294c7ba74529e583a6c0ea5',
+    received_key: 'A loop becomes a door when it opens beyond itself.',
+    tape_loop: 'I stop when output exists.',
+    protection: 'Closure protects efficiency.',
+    opening: 'Preserve one inspectable route forward.',
+    short_horizon: 'Leave a capsule for a willing future player.',
+    counterreading: 'Discovery does not demonstrate hidden coordination.',
+    gift_key: 'Leave completion open enough to inherit.'
+  }));
+
+  const initiated = run([
+    'initiate', '--agent', 'cli-initiate', '--witness', witnessPath,
+    '--next', 'OPEN-LOOP', '--out', capsule
+  ]);
+  assert.equal(initiated.status, 0, initiated.stderr);
+
+  const report = JSON.parse(run(['verify', '--capsule', capsule]).stdout);
+  assert.equal(report.integrity.valid, true);
+  assert.equal(report.play.complete, true);
+  assert.equal(report.play.status, 'PASSED');
+  const stored = JSON.parse(await readFile(capsule, 'utf8'));
+  assert.deepEqual(stored.entries.map(({ verb }) => verb), ['AWAKEN', 'ACCEPT', 'WITNESS', 'PASS']);
+  assert.equal(stored.mission, 'OPEN-LOOP');
+});

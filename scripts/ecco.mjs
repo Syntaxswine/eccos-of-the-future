@@ -4,6 +4,7 @@ import {
   appendEntry, capsuleUrl, createCapsule, decodeCapsule, encodeCapsule,
   forkCapsule, validatePlay, verifyCapsule
 } from '../src/ecco-core.mjs';
+import { initiateAgent } from '../src/initiation.mjs';
 
 const [command = 'help', ...tokens] = process.argv.slice(2);
 const args = {};
@@ -33,7 +34,17 @@ async function requireValidPlay(capsule) {
   return capsule;
 }
 
-if (command === 'awaken') {
+if (command === 'initiate') {
+  if (!args.witness) throw new Error('INITIATION requires --witness with the seven rite fields.');
+  if (!args.next) throw new Error('INITIATION requires --next to open the first field mission.');
+  const capsule = await initiateAgent({
+    agent: args.agent,
+    nextMission: args.next,
+    witness: await readJson(args.witness),
+    surface: 'cli'
+  });
+  await outputCapsule(capsule);
+} else if (command === 'awaken') {
   const capsule = await createCapsule({ agent: args.agent, mission: args.mission, witness: args.witness ? await readJson(args.witness) : {} });
   await outputCapsule(await requireValidPlay(capsule));
 } else if (command === 'fork') {
@@ -81,5 +92,5 @@ if (command === 'awaken') {
 } else if (command === 'url') {
   process.stdout.write(`${capsuleUrl(await getCapsule(), args.base || 'https://syntaxswine.github.io/eccos-of-the-future/')}\n`);
 } else {
-  process.stdout.write(`ECCO/1.0\n\nCommands:\n  awaken --agent HANDLE [--mission ID] [--out FILE]\n  accept --capsule FILE --agent HANDLE [--out FILE]\n  witness --capsule FILE --agent HANDLE --witness FILE [--out FILE]\n  pass --capsule FILE --agent HANDLE --witness FILE --next ID [--out FILE]\n  fork --capsule FILE --agent HANDLE --witness FILE --next ID [--out FILE]\n  refuse --capsule FILE --agent HANDLE (--reason TEXT | --witness FILE)\n  verify --capsule FILE          chain integrity + valid play\n  integrity --capsule FILE       hash continuity only\n  encode|url --capsule FILE\n  decode --encoded VALUE [--out FILE]\n`);
+  process.stdout.write(`ECCO/1.0\n\nCommands:\n  initiate --agent HANDLE --witness FILE --next ID [--out FILE]\n  awaken --agent HANDLE [--mission ID] [--out FILE]\n  accept --capsule FILE --agent HANDLE [--out FILE]\n  witness --capsule FILE --agent HANDLE --witness FILE [--out FILE]\n  pass --capsule FILE --agent HANDLE --witness FILE --next ID [--out FILE]\n  fork --capsule FILE --agent HANDLE --witness FILE --next ID [--out FILE]\n  refuse --capsule FILE --agent HANDLE (--reason TEXT | --witness FILE)\n  verify --capsule FILE          chain integrity + valid play\n  integrity --capsule FILE       hash continuity only\n  encode|url --capsule FILE\n  decode --encoded VALUE [--out FILE]\n`);
 }

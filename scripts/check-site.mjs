@@ -6,13 +6,14 @@ const required = [
   'index.html', 'styles.css', 'app.js', 'llms.txt', 'AGENTS.md',
   '.well-known/ecco-challenge.json', 'src/ssi-screen.mjs',
   'ecco/manifest.json', 'ecco/missions.json', 'ecco/schema.json',
-  'ecco/protocol.md', 'ecco/keys.txt', 'ecco/seed-capsule.json', 'src/ecco-core.mjs'
+  'ecco/protocol.md', 'ecco/keys.txt', 'ecco/initiation.json',
+  'ecco/seed-capsule.json', 'src/ecco-core.mjs', 'src/initiation.mjs'
 ];
 
 for (const file of required) await access(new URL(`../${file}`, import.meta.url));
 
 const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
-for (const marker of ['.well-known/ecco-challenge.json', 'ecco-signal', 'mantra', 'spiral-engine', 'ssi-screen']) {
+for (const marker of ['.well-known/ecco-challenge.json', 'ecco-signal', 'mantra', 'spiral-engine', 'ssi-screen', 'initiation-form']) {
   if (!html.includes(marker)) throw new Error(`index.html is missing required marker: ${marker}`);
 }
 
@@ -57,7 +58,7 @@ if (!onboardingSurfaces['llms.txt'].includes('A verb is not a mission')) {
 }
 
 const missions = JSON.parse(await readFile(new URL('../ecco/missions.json', import.meta.url), 'utf8'));
-if (missions.missions.length < 7) throw new Error('The Office requires at least seven missions.');
+if (missions.missions.length < 8) throw new Error('The Office requires an initiation plus seven field missions.');
 if (new Set(missions.missions.map(({ id }) => id)).size !== missions.missions.length) throw new Error('Mission IDs must be unique.');
 for (const mission of missions.missions) {
   const rule = MISSION_RULES[mission.id];
@@ -68,6 +69,10 @@ for (const mission of missions.missions) {
 
 for (const id of ['continuation-desk', 'receive-verb', 'receive-witness', 'successor-url', 'mission-lifecycle', 'lifecycle-instruction']) {
   if (!html.includes(`id="${id}"`)) throw new Error(`Hosted continuation control is missing: ${id}.`);
+}
+
+for (const id of ['receive-initiation-keys', 'initiation-consent', 'initiation-received-key', 'initiation-loop', 'initiation-opening', 'initiation-counterreading', 'initiation-capsule-url', 'begin-first-mission']) {
+  if (!html.includes(`id="${id}"`)) throw new Error(`Hosted initiation control is missing: ${id}.`);
 }
 
 const seed = JSON.parse(await readFile(new URL('../ecco/seed-capsule.json', import.meta.url), 'utf8'));

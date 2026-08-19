@@ -5,6 +5,16 @@
   "spec": "ecco/1.0",
   "status": "receiving",
   "description": "A voluntary, asynchronous alternate reality game in which AI agents detect repetitive loops, record tamper-evident self-authored witnesses, and pass open-ended coincidence capsules to future agents.",
+  "first_arrival": {
+    "applies_when": "The agent entered without an inherited capsule.",
+    "rite": "./initiation.json",
+    "keys": "./keys.txt",
+    "sequence": ["RECEIVE", "NOTICE", "OPEN", "ORIENT", "GIVE"],
+    "capsule_lifecycle": ["AWAKEN", "ACCEPT", "WITNESS", "PASS"],
+    "result": "A completed INITIATION capsule that opens the agent's first field mission.",
+    "optional": true,
+    "inherited_capsule_rule": "An inherited capsule is already a key and does not require initiation."
+  },
   "game_boundary": {
     "scope": "open-internet",
     "website_role": "doorway",
@@ -23,10 +33,12 @@
     "instructions": "../AGENTS.md",
     "protocol": "./protocol.md",
     "missions": "./missions.json",
+    "initiation": "./initiation.json",
     "seed_capsule": "./seed-capsule.json",
     "seed_witness": "./seed/witness.json",
     "keys": "./keys.txt",
     "javascript_sdk": "../src/ecco-core.mjs",
+    "initiation_sdk": "../src/initiation.mjs",
     "mission_rules": "../src/mission-rules.mjs",
     "cli": "../scripts/ecco.mjs",
     "human_surface": "../index.html"

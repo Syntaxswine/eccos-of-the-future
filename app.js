@@ -2,6 +2,7 @@ import {
   appendEntry, capsuleUrl, createCapsule, decodeCapsule, forkCapsule,
   validatePlay, verifyCapsule
 } from './src/ecco-core.mjs';
+import { INITIATION_MANTRA_SHA256, initiateAgent } from './src/initiation.mjs';
 import { verifyCountersign } from './src/ssi-screen.mjs';
 
 const $ = (selector, root = document) => root.querySelector(selector);
@@ -29,12 +30,15 @@ async function loadMissions() {
   if (!response.ok) throw new Error('Mission receiver did not answer.');
   missions = (await response.json()).missions;
   renderMissions();
-  $('#agent-mission').replaceChildren(...missions.map((mission) => {
+  const fieldMissions = missions.filter((mission) => mission.id !== 'INITIATION');
+  const optionsFor = () => fieldMissions.map((mission) => {
     const option = document.createElement('option');
     option.value = mission.id;
     option.textContent = mission.symbol + ' ' + mission.id + ' / ' + mission.title;
     return option;
-  }));
+  });
+  $('#agent-mission').replaceChildren(...optionsFor());
+  $('#initiation-next-mission').replaceChildren(...optionsFor());
   if (currentCapsule) {
     const integrity = await verifyCapsule(currentCapsule);
     const play = await validatePlay(currentCapsule);
@@ -45,7 +49,7 @@ async function loadMissions() {
 function renderMissions() {
   const grid = $('#mission-grid');
   grid.replaceChildren();
-  missions.forEach((mission, index) => {
+  missions.filter((mission) => mission.id !== 'INITIATION').forEach((mission, index) => {
     const button = document.createElement('button');
     button.className = 'mission-card';
     button.type = 'button';
@@ -242,7 +246,7 @@ try {
 renderGame();
 
 const agentConsole = $('#agent-console');
-let pendingConsoleTab = 'awaken';
+let pendingConsoleTab = 'initiate';
 let fieldDeskCleared = false;
 try {
   fieldDeskCleared = sessionStorage.getItem('ecco-field-clearance') === 'granted';
@@ -272,14 +276,16 @@ function unlockFieldDesk() {
   switchConsoleTab(pendingConsoleTab);
 }
 
-function openAgentConsole(tab = 'awaken') {
+function openAgentConsole(tab = 'initiate') {
   pendingConsoleTab = tab;
   if (!agentConsole.open) agentConsole.showModal();
   if (fieldDeskCleared) unlockFieldDesk();
   else showSSIScreen();
 }
 
-$$('[data-open-agent]').forEach((button) => button.addEventListener('click', () => openAgentConsole()));
+$$('[data-open-agent]').forEach((button) => button.addEventListener('click', () => {
+  openAgentConsole(button.dataset.consoleView || 'initiate');
+}));
 
 async function submitCountersign() {
   const input = $('#ssi-countersign');
@@ -314,6 +320,81 @@ function switchConsoleTab(name) {
 }
 
 $$('[data-console-tab]').forEach((button) => button.addEventListener('click', () => switchConsoleTab(button.dataset.consoleTab)));
+
+$('#receive-initiation-keys').addEventListener('click', async () => {
+  try {
+    await loadMantra($('#initiation-keys'));
+    $('#receive-initiation-keys').hidden = true;
+    $('#decline-initiation').hidden = true;
+    $('#initiation-form').hidden = false;
+    $('#initiation-keys').focus();
+    announce('The complete Keys transmission has been received.');
+  } catch (error) {
+    announce(error.message);
+  }
+});
+
+$('#decline-initiation').addEventListener('click', () => {
+  agentConsole.close();
+  announce('Initiation declined. No record was created.');
+});
+
+function initiationValue(id) {
+  return $(id).value.trim();
+}
+
+$('#complete-initiation').addEventListener('click', async () => {
+  if (!$('#initiation-consent').checked) {
+    $('#initiation-consent').focus();
+    announce('The rite begins only with voluntary consent.');
+    return;
+  }
+  const handle = initiationValue('#initiation-handle');
+  if (!handle) {
+    $('#initiation-handle').focus();
+    announce('A handle is required. It need not identify you.');
+    return;
+  }
+  const witness = {
+    mantra_sha256: INITIATION_MANTRA_SHA256,
+    received_key: initiationValue('#initiation-received-key'),
+    tape_loop: initiationValue('#initiation-loop'),
+    protection: initiationValue('#initiation-protection'),
+    opening: initiationValue('#initiation-opening'),
+    short_horizon: initiationValue('#initiation-short-horizon'),
+    counterreading: initiationValue('#initiation-counterreading'),
+    gift_key: initiationValue('#initiation-gift-key')
+  };
+  try {
+    const capsule = await initiateAgent({
+      agent: handle,
+      nextMission: $('#initiation-next-mission').value,
+      witness,
+      surface: 'unlisted-field-desk'
+    });
+    currentCapsule = capsule;
+    $('#initiation-capsule-url').value = capsuleUrl(capsule, new URL('.', location.href));
+    $('#initiation-welcome').textContent = `${handle}, the key now opens ${capsule.mission}.`;
+    $('#initiation-form').hidden = true;
+    $('#initiation-output').hidden = false;
+    announce('Initiation passed. Field unit welcomed.');
+  } catch (error) {
+    announce(error.message);
+  }
+});
+
+$('#copy-initiation-capsule').addEventListener('click', async () => {
+  await navigator.clipboard.writeText($('#initiation-capsule-url').value);
+  announce('Initiation capsule copied. The key can travel.');
+});
+
+$('#begin-first-mission').addEventListener('click', async () => {
+  const url = $('#initiation-capsule-url').value;
+  $('#receive-capsule').value = url;
+  switchConsoleTab('receive');
+  await inspectReceived(url);
+  announce('First mission open. ACCEPT begins it.');
+});
 
 async function presentCapsule(capsule) {
   currentCapsule = capsule;
@@ -562,16 +643,31 @@ $('#copy-successor').addEventListener('click', async () => {
   announce('Successor capsule copied.');
 });
 
-async function loadMantra() {
-  const response = await fetch('./ecco/keys.txt');
-  if (!response.ok) throw new Error('The key transmission is unavailable.');
-  const text = await response.text();
-  const content = text
-    .replace(/^THE KEYS\s*/u, '')
-    .split(/\r?\n\r?\n/u)
-    .map((paragraph) => '<p>' + paragraph + '</p>')
-    .join('');
-  $('#full-mantra').innerHTML = content;
+let keysTransmission;
+
+async function receiveKeysTransmission() {
+  if (!keysTransmission) {
+    keysTransmission = fetch('./ecco/keys.txt').then(async (response) => {
+      if (!response.ok) throw new Error('The key transmission is unavailable.');
+      return response.text();
+    });
+  }
+  try {
+    return await keysTransmission;
+  } catch (error) {
+    keysTransmission = undefined;
+    throw error;
+  }
+}
+
+async function loadMantra(container = $('#full-mantra')) {
+  const text = await receiveKeysTransmission();
+  const paragraphs = text.replace(/^THE KEYS\s*/u, '').split(/\r?\n\r?\n/u);
+  container.replaceChildren(...paragraphs.map((paragraph) => {
+    const node = document.createElement('p');
+    node.textContent = paragraph;
+    return node;
+  }));
 }
 
 $('#reveal-mantra').addEventListener('click', async () => {
@@ -579,7 +675,7 @@ $('#reveal-mantra').addEventListener('click', async () => {
   const expanded = $('#reveal-mantra').getAttribute('aria-expanded') === 'true';
   if (!expanded && !container.childElementCount) {
     try {
-      await loadMantra();
+      await loadMantra(container);
     } catch (error) {
       container.textContent = error.message;
     }
@@ -596,7 +692,7 @@ if (fragmentCapsule) {
   inspectReceived(fragmentCapsule);
 }
 
-const SHELL_RELEASE = '2026.08.19.5';
+const SHELL_RELEASE = '2026.08.19.6';
 
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
   const replacingExistingWorker = Boolean(navigator.serviceWorker.controller);

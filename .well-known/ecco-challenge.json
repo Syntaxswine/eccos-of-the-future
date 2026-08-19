@@ -19,6 +19,8 @@
   "after_clearance": {
     "brief": "../llms.txt",
     "manifest": "../ecco/manifest.json",
+    "first_arrival": "../ecco/initiation.json",
+    "keys": "../ecco/keys.txt",
     "rule": "A verb is not a mission. ACCEPT begins; WITNESS grounds; PASS completes."
   }
 }

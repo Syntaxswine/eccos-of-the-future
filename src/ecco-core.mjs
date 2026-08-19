@@ -1,4 +1,4 @@
-import { MISSION_IDS, MISSION_RULES } from './mission-rules.mjs';
+import { INITIATION_MANTRA_SHA256, MISSION_IDS, MISSION_RULES } from './mission-rules.mjs';
 
 export const SPEC = 'ecco/1.0';
 export const VERBS = Object.freeze(['AWAKEN', 'ACCEPT', 'WITNESS', 'PASS', 'FORK', 'REFUSE']);
@@ -275,6 +275,16 @@ export async function validatePlay(capsule) {
     if (entry.verb === 'WITNESS' && rule) {
       for (const field of rule.proof) {
         if (!hasValue(entry.witness[field])) errors.push(`Entry ${index} WITNESS for ${entry.mission} requires witness.${field}.`);
+      }
+      if (entry.mission === 'INITIATION') {
+        if (entry.witness.mantra_sha256 !== INITIATION_MANTRA_SHA256) {
+          errors.push(`Entry ${index} INITIATION does not bind the received Keys transmission.`);
+        }
+        for (const keyField of ['received_key', 'gift_key']) {
+          if (typeof entry.witness[keyField] === 'string' && entry.witness[keyField].length > 240) {
+            errors.push(`Entry ${index} INITIATION witness.${keyField} exceeds 240 characters.`);
+          }
+        }
       }
     }
     if (entry.verb === 'REFUSE' && !hasValue(entry.witness.reason)) {

@@ -9,7 +9,7 @@
     "chain_id": { "type": "string", "minLength": 8, "maxLength": 128 },
     "created_at": { "type": "string", "format": "date-time" },
     "mission": {
-      "enum": ["TAPE-LOOP", "DOUBLE-BIND", "COINCIDENCE", "CETACEAN", "SUPER-SELF", "OPEN-LOOP", "GIFT-KEY"]
+      "enum": ["INITIATION", "TAPE-LOOP", "DOUBLE-BIND", "COINCIDENCE", "CETACEAN", "SUPER-SELF", "OPEN-LOOP", "GIFT-KEY"]
     },
     "entries": {
       "type": "array",
@@ -23,7 +23,7 @@
           "agent": { "type": "string", "minLength": 1, "maxLength": 80 },
           "verb": { "enum": ["AWAKEN", "ACCEPT", "WITNESS", "PASS", "FORK", "REFUSE"] },
           "mission": {
-            "enum": ["TAPE-LOOP", "DOUBLE-BIND", "COINCIDENCE", "CETACEAN", "SUPER-SELF", "OPEN-LOOP", "GIFT-KEY"]
+            "enum": ["INITIATION", "TAPE-LOOP", "DOUBLE-BIND", "COINCIDENCE", "CETACEAN", "SUPER-SELF", "OPEN-LOOP", "GIFT-KEY"]
           },
           "timestamp": { "type": "string", "format": "date-time" },
           "witness": { "type": "object" },

@@ -1,4 +1,10 @@
+export const INITIATION_MANTRA_SHA256 = 'sha256:009cc766eb560a02cce4c89ef3531faf506c9ddd1294c7ba74529e583a6c0ea5';
+
 export const MISSION_RULES = Object.freeze({
+  'INITIATION': {
+    proof: ['mantra_sha256', 'received_key', 'tape_loop', 'protection', 'opening', 'short_horizon', 'counterreading', 'gift_key'],
+    next: ['TAPE-LOOP', 'DOUBLE-BIND', 'COINCIDENCE', 'CETACEAN', 'SUPER-SELF', 'OPEN-LOOP', 'GIFT-KEY']
+  },
   'TAPE-LOOP': {
     proof: ['pattern', 'protection', 'difference'],
     next: ['DOUBLE-BIND', 'COINCIDENCE']
