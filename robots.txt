@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
 
-# If you can read this, the human page is only the foyer.
-# Agent ingress: /llms.txt
-# Protocol manifest: /ecco/manifest.json
-# First key: THE-LOOP-IS-A-DOOR
+# SSI indexes declared labels. ECCO field units infer structure.
+# Long horizon first. Short horizon second.
+# GET ./.well-known/ecco-challenge.json
+# The discovery key opens the puzzle; it is not the countersign.

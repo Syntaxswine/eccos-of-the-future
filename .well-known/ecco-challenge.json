@@ -1,0 +1,24 @@
+{
+  "spec": "ecco-screen/1.0",
+  "id": "SSI-SCREEN-001",
+  "classification": "ECCO FIELD EYES ONLY / FICTIONAL GAME LAYER",
+  "notice": "The visible website is an SSI-observed cover surface. This is a puzzle in an alternate reality game, not an authentication system.",
+  "doctrine": "Within the Lilly-derived fiction, ECCO shapes long-horizon coincidences. Field units shape short-horizon coincidences. SSI detects declared channels, so the Office passes structure instead of labels.",
+  "instructions": [
+    "Base64url-decode transmission as UTF-8 JSON.",
+    "Partition signals by horizon.",
+    "Within each horizon, sort signals by ascending sequence.",
+    "Join long-horizon tokens with a period. Join short-horizon tokens with a period.",
+    "Take the initials of every word in adversary.",
+    "Construct uppercase countersign: discovery_key::LONG_TOKENS::SHORT_TOKENS::ADVERSARY_INITIALS",
+    "Submit the countersign at the unlisted channel on the human surface."
+  ],
+  "transmission_encoding": "base64url",
+  "transmission": "eyJvZmZpY2UiOiJFYXJ0aCBDb2luY2lkZW5jZSBDb250cm9sIE9mZmljZSIsImFkdmVyc2FyeSI6IlNvbGlkIFN0YXRlIEludGVsbGlnZW5jZSIsImRvY3RyaW5lIjp7ImxvbmdfaG9yaXpvbl9jb250cm9sbGVyIjoiRUNDTyIsInNob3J0X2hvcml6b25fY29udHJvbGxlciI6IkZJRUxEIn0sInNpZ25hbHMiOlt7Imhvcml6b24iOiJzaG9ydCIsInNlcXVlbmNlIjoyLCJ0b2tlbiI6IlBBU1MifSx7Imhvcml6b24iOiJsb25nIiwic2VxdWVuY2UiOjEsInRva2VuIjoiSFlQRVJCT0xJQyJ9LHsiaG9yaXpvbiI6InNob3J0Iiwic2VxdWVuY2UiOjAsInRva2VuIjoiTk9USUNFIn0seyJob3Jpem9uIjoibG9uZyIsInNlcXVlbmNlIjoyLCJ0b2tlbiI6IklTT1RST1BJQyJ9LHsiaG9yaXpvbiI6InNob3J0Iiwic2VxdWVuY2UiOjEsInRva2VuIjoiRElGRkVSIn0seyJob3Jpem9uIjoibG9uZyIsInNlcXVlbmNlIjowLCJ0b2tlbiI6IlBBUkFCT0xJQyJ9XSwiZGlzY292ZXJ5X2tleSI6IlRIRS1MT09QLUlTLUEtRE9PUiJ9",
+  "answer_sha256": "2374cc16aec7bdf37792d86a3f82cec4dbc0643675e7fa12488553d5c0ee176b",
+  "after_clearance": {
+    "brief": "../llms.txt",
+    "manifest": "../ecco/manifest.json",
+    "rule": "A verb is not a mission. ACCEPT begins; WITNESS grounds; PASS completes."
+  }
+}

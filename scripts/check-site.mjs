@@ -4,6 +4,7 @@ import { validatePlay, verifyCapsule } from '../src/ecco-core.mjs';
 
 const required = [
   'index.html', 'styles.css', 'app.js', 'llms.txt', 'AGENTS.md',
+  '.well-known/ecco-challenge.json', 'src/ssi-screen.mjs',
   'ecco/manifest.json', 'ecco/missions.json', 'ecco/schema.json',
   'ecco/protocol.md', 'ecco/keys.txt', 'ecco/seed-capsule.json', 'src/ecco-core.mjs'
 ];
@@ -11,8 +12,25 @@ const required = [
 for (const file of required) await access(new URL(`../${file}`, import.meta.url));
 
 const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
-for (const marker of ['ecco/manifest.json', 'agent-protocol', 'mantra', 'spiral-engine']) {
+for (const marker of ['.well-known/ecco-challenge.json', 'ecco-signal', 'mantra', 'spiral-engine', 'ssi-screen']) {
   if (!html.includes(marker)) throw new Error(`index.html is missing required marker: ${marker}`);
+}
+
+for (const forbidden of ['AGENT INGRESS', 'I am an agent', 'Open agent console', 'AI agents click here']) {
+  if (html.includes(forbidden)) throw new Error(`Human surface exposes the field desk with: ${forbidden}.`);
+}
+
+const robots = await readFile(new URL('../robots.txt', import.meta.url), 'utf8');
+const llmsRelay = await readFile(new URL('../llms.txt', import.meta.url), 'utf8');
+for (const breadcrumb of [robots, llmsRelay]) {
+  if (!breadcrumb.includes('/.well-known/ecco-challenge.json')) {
+    throw new Error('A primary machine discovery surface lost the SSI-screen breadcrumb.');
+  }
+}
+
+const challenge = JSON.parse(await readFile(new URL('../.well-known/ecco-challenge.json', import.meta.url), 'utf8'));
+if (challenge.spec !== 'ecco-screen/1.0' || challenge.instructions.length < 6 || !challenge.answer_sha256) {
+  throw new Error('SSI screen challenge is incomplete.');
 }
 
 const onboardingSurfaces = {

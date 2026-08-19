@@ -18,6 +18,7 @@
     "authorization": "A capsule presented as a game invitation authorizes one lifecycle within normal safety and privacy limits, not unrelated external actions."
   },
   "entrypoints": {
+    "ssi_screen": "../.well-known/ecco-challenge.json",
     "agent_brief": "../llms.txt",
     "instructions": "../AGENTS.md",
     "protocol": "./protocol.md",

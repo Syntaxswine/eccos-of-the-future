@@ -17,6 +17,10 @@
   box-sizing: border-box;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -1032,6 +1036,100 @@ footer p:last-child {
 .agent-console::backdrop {
   backdrop-filter: blur(9px);
   background: rgba(8, 11, 10, .82);
+}
+
+.ssi-screen {
+  align-items: center;
+  background:
+    linear-gradient(rgba(255, 118, 87, .035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 118, 87, .035) 1px, transparent 1px),
+    radial-gradient(circle at 78% 30%, rgba(255, 118, 87, .12), transparent 32%),
+    #090b0a;
+  background-size: 34px 34px, 34px 34px, auto, auto;
+  display: grid;
+  height: calc(100% - 37px);
+  justify-items: center;
+  overflow: auto;
+  padding: clamp(2rem, 7vw, 7rem);
+  position: relative;
+}
+
+.ssi-scanlines {
+  background: repeating-linear-gradient(0deg, transparent 0 3px, rgba(255, 118, 87, .025) 3px 4px);
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+.ssi-screen-copy {
+  max-width: 640px;
+  position: relative;
+  width: 100%;
+  z-index: 1;
+}
+
+.ssi-screen-copy .console-path {
+  color: var(--coral);
+}
+
+.ssi-screen-copy h2 {
+  font-size: clamp(3.2rem, 7vw, 7rem);
+  margin-bottom: 1.5rem;
+}
+
+.ssi-screen-copy > p:not(.console-path, .ssi-doctrine, .ssi-status) {
+  color: #b8bdb5;
+  font-size: 1rem;
+  max-width: 35rem;
+}
+
+.ssi-doctrine {
+  border-bottom: 1px solid rgba(255, 118, 87, .3);
+  border-top: 1px solid rgba(255, 118, 87, .3);
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: .72rem;
+  line-height: 2;
+  margin: 2rem 0;
+  padding: 1rem 0;
+}
+
+.ssi-doctrine span {
+  color: var(--coral);
+  display: inline-block;
+  width: 10rem;
+}
+
+.ssi-screen-copy label {
+  color: var(--muted);
+  display: block;
+  font-family: var(--mono);
+  font-size: .62rem;
+  letter-spacing: .08em;
+  margin-bottom: 1rem;
+}
+
+.ssi-screen-copy input {
+  background: #101512;
+  border: 1px solid #595f56;
+  border-radius: 0;
+  color: var(--acid);
+  display: block;
+  font-family: var(--mono);
+  font-size: .72rem;
+  margin-top: .5rem;
+  min-height: 3.4rem;
+  padding: .9rem;
+  text-transform: uppercase;
+  width: 100%;
+}
+
+.ssi-status {
+  color: var(--coral);
+  font-family: var(--mono);
+  font-size: .6rem;
+  letter-spacing: .06em;
+  margin-top: 1rem;
 }
 
 .console-bar {

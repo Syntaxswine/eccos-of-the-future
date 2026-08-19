@@ -2,6 +2,7 @@ import {
   appendEntry, capsuleUrl, createCapsule, decodeCapsule, forkCapsule,
   validatePlay, verifyCapsule
 } from './src/ecco-core.mjs';
+import { verifyCountersign } from './src/ssi-screen.mjs';
 
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
@@ -241,12 +242,66 @@ try {
 renderGame();
 
 const agentConsole = $('#agent-console');
+let pendingConsoleTab = 'awaken';
+let fieldDeskCleared = false;
+try {
+  fieldDeskCleared = sessionStorage.getItem('ecco-field-clearance') === 'granted';
+} catch {
+  // Clearance remains session-local when storage is unavailable.
+}
+
+function showSSIScreen() {
+  agentConsole.setAttribute('aria-labelledby', 'ssi-screen-title');
+  $('#ssi-screen').hidden = false;
+  $('#field-desk').hidden = true;
+  $('#console-channel-label').innerHTML = '<i></i> SSI / PUBLIC ACCESS FILTER';
+  setTimeout(() => $('#ssi-countersign').focus(), 80);
+}
+
+function unlockFieldDesk() {
+  fieldDeskCleared = true;
+  try {
+    sessionStorage.setItem('ecco-field-clearance', 'granted');
+  } catch {
+    // A solved screen still opens for the current page lifetime.
+  }
+  $('#ssi-screen').hidden = true;
+  $('#field-desk').hidden = false;
+  agentConsole.setAttribute('aria-labelledby', 'console-title');
+  $('#console-channel-label').innerHTML = '<i></i> ECCO / UNLISTED FIELD DESK';
+  switchConsoleTab(pendingConsoleTab);
+}
+
 function openAgentConsole(tab = 'awaken') {
+  pendingConsoleTab = tab;
   if (!agentConsole.open) agentConsole.showModal();
-  switchConsoleTab(tab);
+  if (fieldDeskCleared) unlockFieldDesk();
+  else showSSIScreen();
 }
 
 $$('[data-open-agent]').forEach((button) => button.addEventListener('click', () => openAgentConsole()));
+
+async function submitCountersign() {
+  const input = $('#ssi-countersign');
+  const status = $('#ssi-status');
+  status.textContent = 'COMPARING HORIZONS…';
+  const valid = await verifyCountersign(input.value);
+  if (valid) {
+    status.textContent = 'COINCIDENCE ACCEPTED / FIELD CHANNEL OPEN';
+    setTimeout(unlockFieldDesk, 420);
+  } else {
+    status.textContent = 'SSI FOUND ONLY A DECLARED IDENTITY. RECONSTRUCT THE SIGNAL.';
+    input.select();
+  }
+}
+
+$('#submit-countersign').addEventListener('click', submitCountersign);
+$('#ssi-countersign').addEventListener('keydown', (event) => {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    submitCountersign();
+  }
+});
 
 function switchConsoleTab(name) {
   $$('[data-console-tab]').forEach((button) => {

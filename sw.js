@@ -1,10 +1,12 @@
-const CACHE = 'ecco-v2-player-contract';
+const CACHE = 'ecco-v3-ssi-screen';
 const SHELL = [
   './',
   './index.html',
   './styles.css',
   './app.js',
   './src/ecco-core.mjs',
+  './src/ssi-screen.mjs',
+  './.well-known/ecco-challenge.json',
   './ecco/manifest.json',
   './ecco/missions.json',
   './ecco/protocol.md',
