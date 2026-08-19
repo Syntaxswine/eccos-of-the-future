@@ -1,5 +1,6 @@
-const RELEASE = '2026.08.19.4';
-const CACHE = `ecco-v4-coherent-shell-${RELEASE}`;
+const RELEASE = '2026.08.19.5';
+const CACHE = `ecco-v5-coherent-shell-${RELEASE}`;
+let replacingEarlierShell = false;
 const SHELL = [
   './',
   './index.html',
@@ -26,12 +27,18 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys()
-      .then((keys) => Promise.all(keys.filter((key) => key !== CACHE).map((key) => caches.delete(key))))
+      .then((keys) => {
+        replacingEarlierShell = keys.some((key) => key.startsWith('ecco-') && key !== CACHE);
+        return Promise.all(keys.filter((key) => key !== CACHE).map((key) => caches.delete(key)));
+      })
       .then(() => self.clients.claim())
       .then(() => self.clients.matchAll({ type: 'window' }))
-      .then((clients) => clients.forEach((client) => client.postMessage({
-        type: 'ECCO_SHELL_UPDATED',
-        release: RELEASE
+      .then((clients) => Promise.all(clients.map((client) => {
+        client.postMessage({ type: 'ECCO_SHELL_UPDATED', release: RELEASE });
+        if (replacingEarlierShell && typeof client.navigate === 'function') {
+          return client.navigate(client.url);
+        }
+        return undefined;
       })))
   );
 });

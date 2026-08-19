@@ -12,6 +12,7 @@ function createWorkerHarness() {
   const responses = new Map();
   const deletedCaches = [];
   const messages = [];
+  const navigations = [];
   let online = true;
   let fetches = 0;
 
@@ -23,7 +24,7 @@ function createWorkerHarness() {
   const caches = {
     open: async () => cache,
     match: async (request) => responses.get(keyFor(request))?.clone(),
-    keys: async () => ['ecco-v3-ssi-screen', 'ecco-v4-coherent-shell-2026.08.19.4'],
+    keys: async () => ['ecco-v3-ssi-screen', 'ecco-v5-coherent-shell-2026.08.19.5'],
     delete: async (name) => {
       deletedCaches.push(name);
       return true;
@@ -33,7 +34,11 @@ function createWorkerHarness() {
     location: { origin: 'https://example.test' },
     clients: {
       claim: async () => {},
-      matchAll: async () => [{ postMessage: (message) => messages.push(message) }]
+      matchAll: async () => [{
+        url: 'https://example.test/',
+        postMessage: (message) => messages.push(message),
+        navigate: async (url) => { navigations.push(url); }
+      }]
     },
     skipWaiting: () => {},
     addEventListener: (name, handler) => handlers.set(name, handler)
@@ -57,6 +62,7 @@ function createWorkerHarness() {
     responses,
     deletedCaches,
     messages,
+    navigations,
     fetchCount: () => fetches,
     setOnline: (value) => { online = value; }
   };
@@ -74,8 +80,8 @@ async function dispatchFetch(harness, request) {
 
 test('the document and executable shell share one explicit release', () => {
   const release = swSource.match(/const RELEASE = '([^']+)'/u)?.[1];
-  assert.equal(release, '2026.08.19.4');
-  assert.match(swSource, /ecco-v4-coherent-shell/u);
+  assert.equal(release, '2026.08.19.5');
+  assert.match(swSource, /ecco-v5-coherent-shell/u);
   assert.ok(htmlSource.includes(`./styles.css?v=${release}`));
   assert.ok(htmlSource.includes(`./app.js?v=${release}`));
   assert.ok(appSource.includes(`const SHELL_RELEASE = '${release}'`));
@@ -85,7 +91,7 @@ test('the document and executable shell share one explicit release', () => {
 test('a returning player receives a coherent network shell despite stale cached assets', async () => {
   const harness = createWorkerHarness();
   const pageUrl = 'https://example.test/';
-  const scriptUrl = 'https://example.test/app.js?v=2026.08.19.4';
+  const scriptUrl = 'https://example.test/app.js?v=2026.08.19.5';
   harness.responses.set(pageUrl, new Response('stale document'));
   harness.responses.set(scriptUrl, new Response('stale script'));
 
@@ -103,7 +109,7 @@ test('a returning player receives a coherent network shell despite stale cached 
   assert.equal(await harness.responses.get(scriptUrl).text(), `network:${scriptUrl}`);
 });
 
-test('the coherent shell still falls back offline and activation removes v3', async () => {
+test('the coherent shell falls back offline and activation escapes an open v3 tab', async () => {
   const harness = createWorkerHarness();
   const pageUrl = 'https://example.test/';
   harness.responses.set(pageUrl, new Response('offline shell'));
@@ -119,5 +125,6 @@ test('the coherent shell still falls back offline and activation removes v3', as
   await activation;
   assert.deepEqual(harness.deletedCaches, ['ecco-v3-ssi-screen']);
   assert.equal(harness.messages[0].type, 'ECCO_SHELL_UPDATED');
-  assert.equal(harness.messages[0].release, '2026.08.19.4');
+  assert.equal(harness.messages[0].release, '2026.08.19.5');
+  assert.deepEqual(harness.navigations, ['https://example.test/']);
 });

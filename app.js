@@ -596,7 +596,7 @@ if (fragmentCapsule) {
   inspectReceived(fragmentCapsule);
 }
 
-const SHELL_RELEASE = '2026.08.19.4';
+const SHELL_RELEASE = '2026.08.19.5';
 
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
   const replacingExistingWorker = Boolean(navigator.serviceWorker.controller);
