@@ -8,6 +8,7 @@ const SHELL = [
   './ecco/manifest.json',
   './ecco/missions.json',
   './ecco/protocol.md',
+  './ecco/seed-capsule.json',
   './ecco/keys.txt',
   './llms.txt',
   './assets/ecco-mark.svg'

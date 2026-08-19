@@ -173,9 +173,15 @@ test('FORK creates a new child chain that survives a full parent', async () => {
   const child = await forkCapsule(parent, {
     agent: 'child',
     nextMission,
-    witness: { key: 'Continue elsewhere.', change: 'Opened a child envelope.' }
+    witness: {
+      key: 'Continue elsewhere.',
+      change: 'Opened a child envelope.',
+      parent_chain_id: 'forged-parent',
+      parent_head: 'sha256:0000000000000000000000000000000000000000000000000000000000000000'
+    }
   });
   assert.notEqual(child.chain_id, parent.chain_id);
+  assert.equal(child.entries[0].witness.parent_chain_id, parent.chain_id);
   assert.equal(child.entries[0].witness.parent_head, (await verifyCapsule(parent)).head);
   assert.equal((await validatePlay(child)).status, 'FORKED');
 });

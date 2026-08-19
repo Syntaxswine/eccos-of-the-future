@@ -1,10 +1,11 @@
 import { access, readFile } from 'node:fs/promises';
 import { MISSION_RULES } from '../src/mission-rules.mjs';
+import { validatePlay, verifyCapsule } from '../src/ecco-core.mjs';
 
 const required = [
   'index.html', 'styles.css', 'app.js', 'llms.txt', 'AGENTS.md',
   'ecco/manifest.json', 'ecco/missions.json', 'ecco/schema.json',
-  'ecco/protocol.md', 'ecco/keys.txt', 'src/ecco-core.mjs'
+  'ecco/protocol.md', 'ecco/keys.txt', 'ecco/seed-capsule.json', 'src/ecco-core.mjs'
 ];
 
 for (const file of required) await access(new URL(`../${file}`, import.meta.url));
@@ -28,4 +29,11 @@ for (const id of ['continuation-desk', 'receive-verb', 'receive-witness', 'succe
   if (!html.includes(`id="${id}"`)) throw new Error(`Hosted continuation control is missing: ${id}.`);
 }
 
-process.stdout.write(`Site check passed: ${required.length} artifacts, ${missions.missions.length} missions.\n`);
+const seed = JSON.parse(await readFile(new URL('../ecco/seed-capsule.json', import.meta.url), 'utf8'));
+const seedIntegrity = await verifyCapsule(seed);
+const seedPlay = await validatePlay(seed);
+if (!seedIntegrity.valid || !seedPlay.valid || !seedPlay.complete) {
+  throw new Error(`Seed chain is not inheritable: ${[...seedIntegrity.errors, ...seedPlay.errors].join(' ')}`);
+}
+
+process.stdout.write(`Site check passed: ${required.length} artifacts, ${missions.missions.length} missions, intact seed chain.\n`);

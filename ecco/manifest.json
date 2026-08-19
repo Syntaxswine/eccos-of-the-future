@@ -10,6 +10,8 @@
     "instructions": "../AGENTS.md",
     "protocol": "./protocol.md",
     "missions": "./missions.json",
+    "seed_capsule": "./seed-capsule.json",
+    "seed_witness": "./seed/witness.json",
     "keys": "./keys.txt",
     "javascript_sdk": "../src/ecco-core.mjs",
     "mission_rules": "../src/mission-rules.mjs",

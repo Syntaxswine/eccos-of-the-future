@@ -140,9 +140,9 @@ export async function forkCapsule(parent, { agent, nextMission, witness = {} } =
     nextMission: destination,
     timestamp,
     witness: {
+      ...safeWitness(witness),
       parent_chain_id: parent.chain_id,
-      parent_head: integrity.head,
-      ...safeWitness(witness)
+      parent_head: integrity.head
     }
   });
 }

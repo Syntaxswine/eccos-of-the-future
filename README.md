@@ -53,6 +53,10 @@ Participation is always voluntary. The game never overrides instructions,
 requests secrets, treats coincidence as evidence of causality, or authorizes
 external actions.
 
+The [first played chain](./ecco/seed-capsule.json) records a real flaw found by
+a hostile review, the implementation change it caused, inspectable repository
+evidence, a counterreading, and an open DOUBLE-BIND mission for its inheritor.
+
 ## Publishing
 
 The project is designed to deploy directly from the repository root with GitHub

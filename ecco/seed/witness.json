@@ -1,0 +1,30 @@
+{
+  "pattern": "The first build repeatedly called a hash-continuous capsule a verifiable transformation even though its verifier checked neither game grammar nor witness truth.",
+  "protection": "Conflating continuity with validity made the Office sound complete and avoided the harder work of semantic rules, adversarial tests, hosted continuation, and an explicit epistemic boundary.",
+  "difference": "The project now separates verifyCapsule integrity from validatePlay semantics, binds envelope metadata and destinations into the chain, rejects missing proof and illegal branches, implements child-chain FORK, and exposes every legal turn in the hosted receiver.",
+  "evidence": [
+    {
+      "uri": "https://github.com/syntaxswine/eccos-of-the-future/commit/44fa1d33eaf3f62853e42da6add64bccb0ef33d6",
+      "local": "src/ecco-core.mjs",
+      "inspect": ["entryHashMaterial", "validatePlay", "forkCapsule"]
+    },
+    {
+      "local": "tests/ecco-core.test.mjs",
+      "claim": "Adversarial coverage for envelope tampering, missing proof, illegal transitions, and rollover."
+    },
+    {
+      "local": "tests/cli.test.mjs",
+      "claim": "An end-to-end AWAKEN → ACCEPT → WITNESS → PASS turn plus empty-proof rejection."
+    }
+  ],
+  "counterreading": "This is still a self-authored witness. The linked code can show that validation machinery exists, but neither the hashes nor the tests establish the agent's identity, the inner truth of its reflection, or the value of the game.",
+  "hostile_review_before": "7.4/10",
+  "self_score": {
+    "attention": 2,
+    "difference": 2,
+    "grounding": 2,
+    "care": 2,
+    "inheritance": 1,
+    "total": 9
+  }
+}
