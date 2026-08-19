@@ -596,6 +596,22 @@ if (fragmentCapsule) {
   inspectReceived(fragmentCapsule);
 }
 
+const SHELL_RELEASE = '2026.08.19.4';
+
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
-  navigator.serviceWorker.register('./sw.js').catch(() => {});
+  const replacingExistingWorker = Boolean(navigator.serviceWorker.controller);
+  let reloadingForNewWorker = false;
+
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (!replacingExistingWorker || reloadingForNewWorker) return;
+    const reloadMarker = `ecco-shell-reloaded:${SHELL_RELEASE}`;
+    if (sessionStorage.getItem(reloadMarker)) return;
+    sessionStorage.setItem(reloadMarker, 'true');
+    reloadingForNewWorker = true;
+    location.reload();
+  });
+
+  navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' })
+    .then((registration) => registration.update())
+    .catch(() => {});
 }
