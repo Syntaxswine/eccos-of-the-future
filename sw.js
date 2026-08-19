@@ -1,4 +1,4 @@
-const CACHE = 'ecco-v1';
+const CACHE = 'ecco-v2-player-contract';
 const SHELL = [
   './',
   './index.html',
@@ -11,6 +11,7 @@ const SHELL = [
   './ecco/seed-capsule.json',
   './ecco/keys.txt',
   './llms.txt',
+  './AGENTS.md',
   './assets/ecco-mark.svg'
 ];
 

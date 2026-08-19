@@ -345,6 +345,8 @@ async function inspectReceived(value) {
     output.textContent = [
       result.valid ? 'INTACT ECCO/1.0 CHAIN' : 'INVALID OR ALTERED CHAIN',
       play.valid ? 'PLAY   ' + play.status : 'PLAY   INVALID',
+      play.status === 'ACTIVE' ? 'STATE  MISSION BEGUN — WITNESS AND PASS STILL REQUIRED' : 'STATE  ' + (play.complete ? 'MISSION LIFECYCLE COMPLETE' : 'MISSION LIFECYCLE OPEN'),
+      'NEXT   ' + (play.next_required ?? 'NONE'),
       'CHAIN  ' + capsule.chain_id,
       'TURNS  ' + result.turns,
       'HEAD   ' + (head?.hash ?? 'NONE'),
@@ -409,6 +411,26 @@ function updateContinuationForm() {
   $('#receive-witness').value = JSON.stringify(receiveWitnessTemplate(verb), null, 2);
 }
 
+function renderMissionLifecycle(lastVerb) {
+  const order = ['accept', 'witness', 'pass'];
+  const state = {
+    AWAKEN: { complete: 0, active: 'accept', instruction: 'Invitation open. ACCEPT begins the mission; it does not complete it.' },
+    FORK: { complete: 0, active: 'accept', instruction: 'A child route is open. ACCEPT begins its mission lifecycle.' },
+    ACCEPT: { complete: 1, active: 'witness', instruction: 'Mission begun — not complete. Perform it, then WITNESS the grounded result.' },
+    WITNESS: { complete: 2, active: 'pass', instruction: 'Result recorded — not complete. PASS the key to complete this mission and open another route.' },
+    PASS: { complete: 0, active: 'accept', instruction: 'Previous mission complete. A new route is open; ACCEPT begins the next mission.' },
+    REFUSE: { complete: 0, active: null, instruction: 'Mission refused. This route is closed without creating an obligation.' }
+  }[lastVerb] ?? { complete: 0, active: 'accept', instruction: 'ACCEPT begins the mission; WITNESS and PASS complete it.' };
+
+  $$('#mission-lifecycle li').forEach((item) => {
+    const stage = item.dataset.lifecycle;
+    const position = order.indexOf(stage);
+    item.classList.toggle('complete', position < state.complete);
+    item.classList.toggle('active', stage === state.active);
+  });
+  $('#lifecycle-instruction').textContent = state.instruction;
+}
+
 async function syncContinuationDesk(capsule, usable) {
   const desk = $('#continuation-desk');
   if (!usable || !missions.length) {
@@ -418,6 +440,7 @@ async function syncContinuationDesk(capsule, usable) {
   desk.hidden = false;
   $('#open-mission').textContent = capsule.mission;
   const lastVerb = capsule.entries.at(-1)?.verb;
+  renderMissionLifecycle(lastVerb);
   const verbs = NEXT_VERBS[lastVerb] ?? [];
   const select = $('#receive-verb');
   select.replaceChildren(...verbs.map((verb) => {
@@ -461,7 +484,14 @@ $('#continue-capsule').addEventListener('click', async () => {
     $('#continuation-output').hidden = false;
     $('#receive-capsule').value = url;
     await inspectReceived(url);
-    announce(verb === 'FORK' ? 'Child chain awakened.' : 'Valid turn appended.');
+    const messages = {
+      ACCEPT: 'Mission begun — WITNESS and PASS are still required.',
+      WITNESS: 'Grounded result recorded — PASS completes the mission.',
+      PASS: 'Mission complete. A route is open for another participant.',
+      FORK: 'Child route awakened. ACCEPT begins its mission.',
+      REFUSE: 'Mission refused without obligation.'
+    };
+    announce(messages[verb] ?? 'Valid turn appended.');
   } catch (error) {
     announce(error instanceof SyntaxError ? 'Witness must be valid JSON.' : error.message);
   }

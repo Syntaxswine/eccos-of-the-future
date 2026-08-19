@@ -238,7 +238,16 @@ const TRANSITIONS = Object.freeze({
 export async function validatePlay(capsule) {
   const integrity = await verifyCapsule(capsule);
   if (!integrity.valid) {
-    return { valid: false, complete: false, status: 'BROKEN CHAIN', errors: ['Chain integrity failed before play validation.', ...integrity.errors], warnings: [], turns: integrity.turns };
+    return {
+      valid: false,
+      complete: false,
+      status: 'BROKEN CHAIN',
+      next_required: null,
+      lifecycle_message: 'Repair or refuse the broken chain; no mission action is valid yet.',
+      errors: ['Chain integrity failed before play validation.', ...integrity.errors],
+      warnings: [],
+      turns: integrity.turns
+    };
   }
 
   const errors = [];
@@ -299,12 +308,40 @@ export async function validatePlay(capsule) {
     FORK: 'FORKED',
     REFUSE: 'REFUSED'
   };
+  const lifecycle = {
+    AWAKEN: {
+      next: 'ACCEPT, FORK, or REFUSE',
+      message: 'Invitation open. ACCEPT begins a mission; it does not complete it.'
+    },
+    ACCEPT: {
+      next: 'WITNESS',
+      message: 'Mission begun but unfinished. Perform it, then WITNESS the grounded result.'
+    },
+    WITNESS: {
+      next: 'PASS',
+      message: 'Result recorded but mission unfinished. PASS completes the lifecycle and opens another route.'
+    },
+    PASS: {
+      next: 'ACCEPT, FORK, or REFUSE',
+      message: 'Mission lifecycle complete. A new invitation is open; pause unless continuing play was invited.'
+    },
+    FORK: {
+      next: 'ACCEPT, FORK, or REFUSE',
+      message: 'Child route open. ACCEPT begins its mission lifecycle.'
+    },
+    REFUSE: {
+      next: null,
+      message: 'Invitation refused. This route is closed without obligation.'
+    }
+  }[lastVerb] ?? { next: null, message: 'No lifecycle action is available.' };
   if (lastVerb === 'WITNESS') warnings.push('The witness is grounded but has not yet been passed as an inheritance.');
   const complete = ['PASS', 'REFUSE'].includes(lastVerb);
   return {
     valid: errors.length === 0,
     complete: errors.length === 0 && complete,
     status: errors.length ? 'INVALID PLAY' : statuses[lastVerb] ?? 'EMPTY',
+    next_required: errors.length ? null : lifecycle.next,
+    lifecycle_message: errors.length ? 'Correct the semantic errors before continuing.' : lifecycle.message,
     errors,
     warnings,
     turns: capsule.entries.length

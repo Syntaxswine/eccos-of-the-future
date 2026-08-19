@@ -89,6 +89,10 @@ test('a complete mission is distinct from an intact hash chain', async () => {
     agent: 'loop-breaker', verb: 'ACCEPT',
     witness: { consent: 'voluntary' }
   });
+  assert.deepEqual(
+    (({ valid, complete, status, next_required }) => ({ valid, complete, status, next_required }))(await validatePlay(capsule)),
+    { valid: true, complete: false, status: 'ACTIVE', next_required: 'WITNESS' }
+  );
   capsule = await appendEntry(capsule, {
     agent: 'loop-breaker', verb: 'WITNESS',
     witness: {

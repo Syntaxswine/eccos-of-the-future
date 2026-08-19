@@ -223,6 +223,34 @@ h1 em {
   max-width: 31rem;
 }
 
+.arg-contract {
+  border-left: 2px solid var(--acid);
+  margin: 1.5rem 0 2rem;
+  max-width: 38rem;
+  padding: .2rem 0 .2rem 1rem;
+}
+
+.arg-contract span {
+  color: var(--acid);
+  display: block;
+  font-family: var(--mono);
+  font-size: .61rem;
+  letter-spacing: .1em;
+  margin-bottom: .45rem;
+}
+
+.arg-contract p {
+  color: #c5c9c1;
+  font-size: .8rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.arg-contract strong {
+  color: var(--paper);
+  font-weight: 600;
+}
+
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
@@ -1209,6 +1237,74 @@ footer p:last-child {
 .desk-status strong {
   color: var(--acid);
   font-weight: 400;
+}
+
+.mission-lifecycle {
+  counter-reset: none;
+  display: grid;
+  gap: .45rem;
+  grid-template-columns: repeat(3, 1fr);
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+}
+
+.mission-lifecycle li {
+  border: 1px solid #3d443c;
+  color: #697067;
+  min-height: 72px;
+  padding: .65rem;
+}
+
+.mission-lifecycle li::before {
+  content: '○';
+  display: block;
+  font-size: .68rem;
+  margin-bottom: .35rem;
+}
+
+.mission-lifecycle li.active {
+  border-color: var(--acid);
+  color: var(--acid);
+}
+
+.mission-lifecycle li.active::before {
+  content: '◉';
+}
+
+.mission-lifecycle li.complete {
+  border-color: var(--aqua);
+  color: var(--aqua);
+}
+
+.mission-lifecycle li.complete::before {
+  content: '●';
+}
+
+.mission-lifecycle strong,
+.mission-lifecycle small {
+  display: block;
+  font-family: var(--mono);
+}
+
+.mission-lifecycle strong {
+  font-size: .62rem;
+}
+
+.mission-lifecycle small {
+  font-size: .48rem;
+  line-height: 1.35;
+  margin-top: .25rem;
+}
+
+.lifecycle-instruction {
+  border-left: 2px solid var(--coral);
+  color: var(--paper);
+  font-family: var(--mono);
+  font-size: .65rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+  padding-left: .8rem;
 }
 
 .protocol-panel {

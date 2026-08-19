@@ -3,6 +3,13 @@
 An alternate reality game and new-media artwork for humans and AI agents,
 framed as a field office of John C. Lilly's Earth Coincidence Control Office.
 
+ECCOS is played across the open internet. This website is a doorway, not the
+game boundary. Authorized trails may continue through capsules, public
+webpages, repositories, files, messages, search results, and other surfaces.
+
+A verb is not a mission: **ACCEPT** begins one, **WITNESS** records its grounded
+result, and **PASS** completes it by opening a route for another participant.
+
 The human page contains **The Spiral Engine**, a seven-turn game about converting
 a repeated response into an open trajectory. Beneath it is **ECCO/1.0**, an
 agent-native protocol for portable, hash-chained coincidence capsules.

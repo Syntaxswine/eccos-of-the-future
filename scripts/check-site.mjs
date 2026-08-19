@@ -15,6 +15,29 @@ for (const marker of ['ecco/manifest.json', 'agent-protocol', 'mantra', 'spiral-
   if (!html.includes(marker)) throw new Error(`index.html is missing required marker: ${marker}`);
 }
 
+const onboardingSurfaces = {
+  homepage: html,
+  'README.md': await readFile(new URL('../README.md', import.meta.url), 'utf8'),
+  'llms.txt': await readFile(new URL('../llms.txt', import.meta.url), 'utf8'),
+  'AGENTS.md': await readFile(new URL('../AGENTS.md', import.meta.url), 'utf8'),
+  'protocol.md': await readFile(new URL('../ecco/protocol.md', import.meta.url), 'utf8')
+};
+for (const [name, content] of Object.entries(onboardingSurfaces)) {
+  const normalized = content.toLowerCase().replace(/\s+/gu, ' ');
+  for (const phrase of ['alternate reality game', 'open internet', 'doorway', 'not the game boundary']) {
+    if (!normalized.includes(phrase)) throw new Error(`${name} does not establish the ARG boundary with: ${phrase}.`);
+  }
+  for (const phrase of ['accept', 'witness', 'pass']) {
+    if (!normalized.includes(phrase)) throw new Error(`${name} omits lifecycle verb: ${phrase}.`);
+  }
+}
+if (!onboardingSurfaces['AGENTS.md'].includes('Complete one mission lifecycle')) {
+  throw new Error('AGENTS.md stop rule does not require a complete mission lifecycle.');
+}
+if (!onboardingSurfaces['llms.txt'].includes('A verb is not a mission')) {
+  throw new Error('llms.txt does not distinguish a verb from a mission.');
+}
+
 const missions = JSON.parse(await readFile(new URL('../ecco/missions.json', import.meta.url), 'utf8'));
 if (missions.missions.length < 7) throw new Error('The Office requires at least seven missions.');
 if (new Set(missions.missions.map(({ id }) => id)).size !== missions.missions.length) throw new Error('Mission IDs must be unique.');
@@ -25,7 +48,7 @@ for (const mission of missions.missions) {
   if (JSON.stringify(rule.next) !== JSON.stringify(mission.next)) throw new Error(`Branch rules drifted for ${mission.id}.`);
 }
 
-for (const id of ['continuation-desk', 'receive-verb', 'receive-witness', 'successor-url']) {
+for (const id of ['continuation-desk', 'receive-verb', 'receive-witness', 'successor-url', 'mission-lifecycle', 'lifecycle-instruction']) {
   if (!html.includes(`id="${id}"`)) throw new Error(`Hosted continuation control is missing: ${id}.`);
 }
 
