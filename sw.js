@@ -1,5 +1,5 @@
-const RELEASE = '2026.08.19.8';
-const CACHE = `ecco-v8-informed-edge-${RELEASE}`;
+const RELEASE = '2026.08.20.1';
+const CACHE = `ecco-v9-counter-boundary-${RELEASE}`;
 let replacingEarlierShell = false;
 const SHELL = [
   './',

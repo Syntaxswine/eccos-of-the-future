@@ -17,6 +17,12 @@ export async function verifyCountersign(value) {
   return (await sha256(normalized)) === `sha256:${RETURN_ANSWER_DIGEST}`;
 }
 
+export async function countersignDigest(value) {
+  const normalized = normalizeCountersign(value);
+  if (!normalized || normalized.length > 240) throw new Error('Countersign is outside the accepted boundary.');
+  return (await sha256(normalized)).slice('sha256:'.length);
+}
+
 export function decodeChallengeTransmission(encoded) {
   if (!encoded || !/^[A-Za-z0-9_-]+$/u.test(encoded)) throw new Error('Transmission is not base64url.');
   const padded = encoded.replaceAll('-', '+').replaceAll('_', '/') + '='.repeat((4 - encoded.length % 4) % 4);

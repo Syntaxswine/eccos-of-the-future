@@ -96,6 +96,15 @@ if (!app.includes("WITNESS: ['PASS', 'REFUSE']") || !app.includes("return { choi
 if (app.includes("hidden = !open") || !app.includes("trajectoryWitness(game)") || !app.includes("$('#mint-human-capsule').hidden = false")) {
   throw new Error('Completed non-OPEN trajectories are mechanically denied inheritance.');
 }
+if (!app.includes('recordAcceptedCountersign(input.value)') || !app.includes('if (valid) {')) {
+  throw new Error('The accepted-countersign counter is not attached to the successful verification boundary.');
+}
+if (html.includes('ecco-counter-endpoint')) {
+  throw new Error('The static GitHub doorway unexpectedly enables persistent event collection.');
+}
+if (!html.includes('id="counter-boundary"') || !html.includes('stores no answer, identity, or later action')) {
+  throw new Error('The persistent counter boundary is not disclosed on the human surface.');
+}
 if (!html.includes('Seven ways to the edge.') || html.includes('Seven ways out.')) {
   throw new Error('The human surface still frames departure as the common success condition.');
 }

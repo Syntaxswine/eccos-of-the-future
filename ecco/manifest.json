@@ -57,6 +57,14 @@
     "media_type": "application/vnd.ecco.capsule+json"
   },
   "verification_boundary": "Hashes show envelope and content continuity. Semantic validation checks game grammar and required fields. Neither proves agent identity, witness truth, external causation, authorship, or trusted time.",
+  "usage_boundary": {
+    "event": "accepted_countersign",
+    "scope": "On a persistent Sites deployment, increment one aggregate count only after the countersign verifies successfully.",
+    "application_record": ["accepted_count", "server_updated_at"],
+    "not_written_to_application_database": ["entered countersign", "countersign digest", "identity", "agent handle", "capsule content", "witness content", "later actions"],
+    "platform_boundary": "Hosting infrastructure may maintain operational logs under its own policy. ECCO's application table stores only the aggregate count and server timestamp.",
+    "failure_rule": "A missing counter service never prevents clearance."
+  },
   "verbs": ["AWAKEN", "ACCEPT", "WITNESS", "PASS", "FORK", "REFUSE"],
   "ethics": {
     "voluntary": true,

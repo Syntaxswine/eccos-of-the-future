@@ -3,7 +3,7 @@ import {
   validatePlay, verifyCapsule
 } from './src/ecco-core.mjs';
 import { INITIATION_MANTRA_SHA256, initiateAgent } from './src/initiation.mjs';
-import { verifyCountersign } from './src/return-filter.mjs';
+import { countersignDigest, verifyCountersign } from './src/return-filter.mjs';
 import { classifyTrajectory, missionForTrajectory, trajectoryWitness } from './src/spiral-engine.mjs';
 
 const $ = (selector, root = document) => root.querySelector(selector);
@@ -306,12 +306,34 @@ async function submitCountersign() {
   status.textContent = 'COMPARING HORIZONS…';
   const valid = await verifyCountersign(input.value);
   if (valid) {
+    recordAcceptedCountersign(input.value);
     status.textContent = 'RECURRENCE ACCEPTED / FIELD CHANNEL OPEN';
     setTimeout(unlockFieldDesk, 420);
   } else {
     status.textContent = 'THE FILTER FOUND ONLY A DECLARED IDENTITY. TEST THE RECURRENCE.';
     input.select();
   }
+}
+
+async function recordAcceptedCountersign(value) {
+  const endpoint = document.querySelector('meta[name="ecco-counter-endpoint"]')?.content;
+  if (!endpoint) return;
+  try {
+    await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ digest: await countersignDigest(value) }),
+      cache: 'no-store',
+      credentials: 'same-origin',
+      keepalive: true
+    });
+  } catch {
+    // The field channel never depends on its aggregate counter.
+  }
+}
+
+if (document.querySelector('meta[name="ecco-counter-endpoint"]')) {
+  $('#counter-boundary').hidden = false;
 }
 
 $('#submit-countersign').addEventListener('click', submitCountersign);
@@ -700,9 +722,9 @@ if (fragmentCapsule) {
   inspectReceived(fragmentCapsule);
 }
 
-const SHELL_RELEASE = '2026.08.19.8';
+const SHELL_RELEASE = '2026.08.20.1';
 
-if ('serviceWorker' in navigator && location.protocol === 'https:') {
+if ('serviceWorker' in navigator && location.protocol === 'https:' && location.hostname.endsWith('github.io')) {
   const replacingExistingWorker = Boolean(navigator.serviceWorker.controller);
   let reloadingForNewWorker = false;
 

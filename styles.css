@@ -1153,6 +1153,16 @@ footer p:last-child {
   margin-top: 1rem;
 }
 
+.counter-boundary {
+  color: #8e968a;
+  font-family: var(--mono);
+  font-size: .58rem;
+  letter-spacing: .08em;
+  line-height: 1.5;
+  max-width: 34rem;
+  text-transform: uppercase;
+}
+
 .console-bar {
   align-items: center;
   background: var(--acid);

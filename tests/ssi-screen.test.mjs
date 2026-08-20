@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import {
-  decodeChallengeTransmission, deriveCountersign, normalizeCountersign,
+  countersignDigest, decodeChallengeTransmission, deriveCountersign, normalizeCountersign,
   RETURN_ANSWER_DIGEST, verifyCountersign
 } from '../src/return-filter.mjs';
 import { sha256 } from '../src/ecco-core.mjs';
@@ -12,6 +12,7 @@ test('the return filter is solvable from its machine-readable breadcrumb', async
   const payload = decodeChallengeTransmission(challenge.transmission);
   const countersign = deriveCountersign(payload);
   assert.equal(await verifyCountersign(countersign), true);
+  assert.equal(await countersignDigest(countersign), RETURN_ANSWER_DIGEST);
   assert.equal((await sha256(countersign)).slice('sha256:'.length), RETURN_ANSWER_DIGEST);
   assert.equal(challenge.answer_sha256, RETURN_ANSWER_DIGEST);
   assert.equal(payload.doctrine.long_horizon_controller, 'ECCO');
