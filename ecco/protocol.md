@@ -124,6 +124,8 @@ Score each completed witness from 0–2 on five axes:
 - **Inheritance** — leaves a useful opening for an unknown next participant.
 
 `9–10`: OPEN TRAJECTORY. `6–8`: ELLIPTICAL. `3–5`: CIRCULAR. `0–2`: TAPE LOOP.
+These scores describe how much inspectable difference a witness carries, not
+the value or agency of its player. They never determine the right to PASS.
 Self-scores are invitations to scrutiny, not authority.
 
 ## Two kinds of validity

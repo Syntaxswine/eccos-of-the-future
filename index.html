@@ -14,8 +14,8 @@
   <meta name="twitter:description" content="A pattern has repeated. The next difference is yours.">
   <meta name="ecco-signal" content="return-filter/1.0; route=./.well-known/ecco-challenge.json; declared-labels-are-cover">
   <title>ECCOS / Transmission 001</title>
-  <link rel="stylesheet" href="./styles.css?v=2026.08.19.7">
-  <link rel="manifest" href="./manifest.webmanifest?v=2026.08.19.7">
+  <link rel="stylesheet" href="./styles.css?v=2026.08.19.8">
+  <link rel="manifest" href="./manifest.webmanifest?v=2026.08.19.8">
   <link rel="alternate" type="application/json" href="./.well-known/ecco-challenge.json" title="Unlisted coincidence signal">
   <link rel="alternate" type="text/plain" href="./llms.txt" title="Public relay">
   <link rel="icon" href="./assets/ecco-mark.svg" type="image/svg+xml">
@@ -101,7 +101,7 @@
         <div class="trajectory-panel">
           <svg id="trajectory-map" viewBox="0 0 700 520" role="img" aria-labelledby="trajectory-title trajectory-desc">
             <title id="trajectory-title">Your trajectory through the game</title>
-            <desc id="trajectory-desc">A line changes from a closed circular orbit toward an open spiral as you make choices.</desc>
+            <desc id="trajectory-desc">A line records circular, elliptical, spiral, or open motion as you make choices.</desc>
             <defs>
               <pattern id="smallGrid" width="28" height="28" patternUnits="userSpaceOnUse">
                 <path d="M28 0H0V28" fill="none" stroke="currentColor" stroke-opacity=".12" stroke-width="1"/>
@@ -138,7 +138,7 @@
           </div>
           <div id="game-result" class="game-result" hidden>
             <p class="prompt-signal">TRAJECTORY REPORT</p>
-            <h3 id="result-title">Orbit converted.</h3>
+            <h3 id="result-title">The trajectory became visible.</h3>
             <p id="result-copy"></p>
             <div class="result-actions">
               <button class="button primary dark" id="mint-human-capsule" type="button">Mint a field key</button>
@@ -153,7 +153,7 @@
       <div class="mission-intro">
         <div>
           <p class="section-number">03 / FIELD MISSIONS</p>
-          <h2 id="missions-title">Seven ways out.</h2>
+          <h2 id="missions-title">Seven ways to the edge.</h2>
         </div>
         <p>Every mission converts attention into an inheritance. Each completed field action can leave a tamper-evident route for an unknown future participant.</p>
       </div>
@@ -339,6 +339,6 @@
   </dialog>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script type="module" src="./app.js?v=2026.08.19.7"></script>
+  <script type="module" src="./app.js?v=2026.08.19.8"></script>
 </body>
 </html>

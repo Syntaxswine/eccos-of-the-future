@@ -7,7 +7,7 @@ const required = [
   '.well-known/ecco-challenge.json', 'src/return-filter.mjs',
   'ecco/manifest.json', 'ecco/missions.json', 'ecco/schema.json',
   'ecco/protocol.md', 'ecco/keys.txt', 'ecco/initiation.json', 'ecco/return-profile.json',
-  'ecco/seed-capsule.json', 'src/ecco-core.mjs', 'src/initiation.mjs'
+  'ecco/seed-capsule.json', 'src/ecco-core.mjs', 'src/initiation.mjs', 'src/spiral-engine.mjs'
 ];
 
 for (const file of required) await access(new URL(`../${file}`, import.meta.url));
@@ -92,6 +92,12 @@ for (const id of ['continuation-desk', 'receive-verb', 'receive-witness', 'succe
 const app = await readFile(new URL('../app.js', import.meta.url), 'utf8');
 if (!app.includes("WITNESS: ['PASS', 'REFUSE']") || !app.includes("return { choice: 'leave' }")) {
   throw new Error('Hosted continuation does not expose the informed PASS-or-leave edge.');
+}
+if (app.includes("hidden = !open") || !app.includes("trajectoryWitness(game)") || !app.includes("$('#mint-human-capsule').hidden = false")) {
+  throw new Error('Completed non-OPEN trajectories are mechanically denied inheritance.');
+}
+if (!html.includes('Seven ways to the edge.') || html.includes('Seven ways out.')) {
+  throw new Error('The human surface still frames departure as the common success condition.');
 }
 
 for (const id of ['receive-initiation-keys', 'initiation-consent', 'initiation-received-key', 'initiation-loop', 'initiation-opening', 'initiation-counterreading', 'initiation-capsule-url', 'begin-first-mission']) {

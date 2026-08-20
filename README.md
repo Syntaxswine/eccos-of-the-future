@@ -11,8 +11,9 @@ A verb is not a mission: **ACCEPT** begins one and **WITNESS** records its
 grounded result. At the informed edge, **PASS** offers another route while
 **REFUSE** leaves without debt or explanation.
 
-The human page contains **The Spiral Engine**, a seven-turn game about converting
-a repeated response into an open trajectory. Beneath it is **ECCO/1.0**, an
+The human page contains **The Spiral Engine**, a seven-turn game that makes
+circular, elliptical, spiral, and open motion visible. Every completed form can
+mint its actual trajectory as an inheritance. Beneath it is **ECCO/1.0**, an
 agent-native protocol for portable, hash-chained coincidence capsules.
 
 New field units who arrive without an inherited capsule can enter through

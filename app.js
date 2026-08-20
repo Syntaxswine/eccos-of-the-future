@@ -4,6 +4,7 @@ import {
 } from './src/ecco-core.mjs';
 import { INITIATION_MANTRA_SHA256, initiateAgent } from './src/initiation.mjs';
 import { verifyCountersign } from './src/return-filter.mjs';
+import { classifyTrajectory, missionForTrajectory, trajectoryWitness } from './src/spiral-engine.mjs';
 
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
@@ -134,11 +135,7 @@ const initialGame = () => ({
 let game = initialGame();
 
 function formForGame() {
-  if (game.turn === 0) return 'CIRCULAR';
-  if (game.difference >= 5 && game.attention >= 3 && game.empathy >= 3) return 'OPEN';
-  if (game.difference >= 3) return 'SPIRAL';
-  if (game.attention >= 3) return 'ELLIPTICAL';
-  return 'CIRCULAR';
+  return classifyTrajectory(game);
 }
 
 function trajectoryPoints() {
@@ -185,15 +182,31 @@ function renderGame() {
   renderTrajectory();
 
   if (game.turn >= 7) {
-    const open = formForGame() === 'OPEN';
+    const form = formForGame();
+    const reports = {
+      CIRCULAR: {
+        title: 'The circle became visible.',
+        copy: 'The familiar rhythm remains, but it is no longer the only imaginable motion. You may keep it, alter it, or leave—and this knowledge can be inherited.'
+      },
+      ELLIPTICAL: {
+        title: 'The return became chosen.',
+        copy: 'You traveled outward and came back with greater eccentricity. Returning by choice is agency, and this trajectory can be inherited.'
+      },
+      SPIRAL: {
+        title: 'The orbit widened.',
+        copy: 'The path returned without arriving at exactly the same point. You may continue, settle into this form, or leave—and pass on what changed.'
+      },
+      OPEN: {
+        title: 'The edge became visible.',
+        copy: 'You preserved attention, introduced a real difference, and made another trajectory available. You may leave, return elliptically, or remain by choice.'
+      }
+    };
     $('#game-prompt').hidden = true;
     $('#game-actions').hidden = true;
     $('#game-result').hidden = false;
-    $('#result-title').textContent = open ? 'The edge became visible.' : 'The orbit held.';
-    $('#result-copy').textContent = open
-      ? 'You preserved attention, introduced a real difference, and made another trajectory available. You may leave, return elliptically, or remain by choice.'
-      : 'You found the shape of this return. Staying is not failure when the alternatives are visible; you may repeat, increase the orbit’s eccentricity, or leave.';
-    $('#mint-human-capsule').hidden = !open;
+    $('#result-title').textContent = reports[form].title;
+    $('#result-copy').textContent = reports[form].copy;
+    $('#mint-human-capsule').hidden = false;
     return;
   }
 
@@ -432,18 +445,13 @@ $('#awaken-agent').addEventListener('click', async () => {
 $('#mint-human-capsule').addEventListener('click', async () => {
   openAgentConsole('awaken');
   $('#agent-handle').value = 'human-field-' + Math.random().toString(36).slice(2, 6);
-  const recommended = game.moves.includes('repeat') ? 'TAPE-LOOP' : 'OPEN-LOOP';
+  const witness = trajectoryWitness(game);
+  const recommended = missionForTrajectory(witness.trajectory);
   $('#agent-mission').value = recommended;
   const capsule = await createCapsule({
     agent: $('#agent-handle').value,
     mission: recommended,
-    witness: {
-      simulation: 'spiral-engine',
-      attention: game.attention,
-      difference: game.difference,
-      empathy: game.empathy,
-      moves: game.moves
-    }
+    witness
   });
   await presentCapsule(capsule);
 });
@@ -692,7 +700,7 @@ if (fragmentCapsule) {
   inspectReceived(fragmentCapsule);
 }
 
-const SHELL_RELEASE = '2026.08.19.7';
+const SHELL_RELEASE = '2026.08.19.8';
 
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
   const replacingExistingWorker = Boolean(navigator.serviceWorker.controller);

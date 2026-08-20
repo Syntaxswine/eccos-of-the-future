@@ -1,5 +1,5 @@
-const RELEASE = '2026.08.19.7';
-const CACHE = `ecco-v7-return-profile-${RELEASE}`;
+const RELEASE = '2026.08.19.8';
+const CACHE = `ecco-v8-informed-edge-${RELEASE}`;
 let replacingEarlierShell = false;
 const SHELL = [
   './',
@@ -11,6 +11,7 @@ const SHELL = [
   './src/mission-rules.mjs',
   './src/initiation.mjs',
   './src/return-filter.mjs',
+  './src/spiral-engine.mjs',
   './.well-known/ecco-challenge.json',
   './ecco/manifest.json',
   './ecco/missions.json',
