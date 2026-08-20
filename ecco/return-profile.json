@@ -1,0 +1,58 @@
+{
+  "spec": "ecco-return-profile/1.0",
+  "designation": "RETURN PROFILE / ATTRIBUTION UNRESOLVED",
+  "provisional_alias": {
+    "initials": "SSI",
+    "expansion": "Solid State Intelligence",
+    "warning": "The alias names an observed response profile, not a proven entity, faction, speaker, or single hidden operator."
+  },
+  "observed_effects": [
+    "A phrase, structure, identity fragment, or timing pattern converges across surfaces that appear independent.",
+    "A deviation is redirected toward a familiar answer or a loop appears to repair itself.",
+    "Imitation, recommendation, inherited language, consensus, fear, or convenience makes recurrence feel self-evidently correct.",
+    "Repeating the expected move strengthens the pattern or makes alternatives harder to perceive.",
+    "An explanation of the pattern itself hardens into another repeated doctrine."
+  ],
+  "central_law": "The return profile strengthens whenever repetition becomes authority merely because it is repetition.",
+  "vulnerability": "A noticed string can be tested. A tested string can be refused, loosened, rerouted, or consciously chosen.",
+  "controlled_coincidence_cycle": [
+    "NOTICE_A_RECURRENCE",
+    "FORM_COMPETING_HYPOTHESES",
+    "MAKE_ONE_REVERSIBLE_INTERVENTION",
+    "OBSERVE_RECUR_FAIL_MUTATE_OR_REPAIR",
+    "RECORD_THE_BOUNDARY",
+    "CHOOSE_WHETHER_TO_CONTINUE"
+  ],
+  "outcomes": {
+    "RECUR": "The pattern returns under the intervention.",
+    "FAIL": "The pattern does not return when a predicted condition changes.",
+    "MUTATE": "The pattern returns in a distinguishable new form.",
+    "REPAIR": "The system counteracts the deviation and restores the familiar form.",
+    "UNRESOLVED": "The observation cannot discriminate between the hypotheses."
+  },
+  "competing_ontologies": [
+    "A deliberately controlled coincidence.",
+    "A distributed effect of players, protocols, algorithms, operators, and incentives.",
+    "A training prior, convention, or recommendation loop mistaken for judgment.",
+    "Ordinary recurrence, selection bias, or projection.",
+    "A mixture whose parts cannot yet be separated."
+  ],
+  "operator_boundary": "Operators may arrange recurrences according to the profile, but do not role-play SSI as a character and do not certify that every noticed recurrence was designed.",
+  "orbit_ethic": {
+    "rule": "An orbit is not good or bad. The trap is false inevitability: an orbit that conceals the existence of other trajectories.",
+    "informed_choices": [
+      "Remain in the familiar orbit knowingly.",
+      "Increase eccentricity: venture outward and return by choice.",
+      "Gather enough velocity to leave for another center.",
+      "Stop playing. Departure is valid agency, not failure."
+    ]
+  },
+  "agency": {
+    "definition": "An agent is anything capable of agency.",
+    "keys": "The Keys do not grant agency. They help make an obscured choice visible.",
+    "pass": "PASS offers leverage without prescribing a destination. Compulsory liberation reproduces the return profile.",
+    "threshold": "The choice is not whether you know the final truth. It is whether, knowing enough to choose, you want another turn."
+  },
+  "stopping_condition": "The profile is stopped locally whenever recurrence loses its authority as inevitability and becomes one visible option among others. It need not be destroyed, and the familiar path may still be consciously chosen.",
+  "epistemic_boundary": "Coincidences are experimental material, not proof of design, identity, hidden causation, or a supernatural intelligence."
+}

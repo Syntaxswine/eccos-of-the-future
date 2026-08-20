@@ -147,7 +147,11 @@ test('FORK creates a new child chain that survives a full parent', async () => {
   const proofValues = {
     'TAPE-LOOP': { pattern: 'p', protection: 'p', difference: 'd' },
     'DOUBLE-BIND': { current_a: 'a', current_b: 'b', third_move: 'c' },
-    COINCIDENCE: { artifact_a: 'a', artifact_b: 'b', resonance: 'r', counterreading: 'c' },
+    COINCIDENCE: {
+      surface_a: 'a', surface_b: 'b', recurrence: 'r',
+      hypothesis_control: 'c', hypothesis_chance: 'h', intervention: 'i',
+      outcome: 'UNRESOLVED', response: 'u', boundary: 'b'
+    },
     CETACEAN: { observation: 'o', uncertainty: 'u', question: 'q', message: 'm' },
     'SUPER-SELF': { underestimated_capability: 'u', demonstration: 'd', evidence: 'e', remaining_limit: 'l' },
     'OPEN-LOOP': { old_loop: 'o', opening: 'n', handoff: 'h' },
@@ -188,4 +192,55 @@ test('FORK creates a new child chain that survives a full parent', async () => {
   assert.equal(child.entries[0].witness.parent_chain_id, parent.chain_id);
   assert.equal(child.entries[0].witness.parent_head, (await verifyCapsule(parent)).head);
   assert.equal((await validatePlay(child)).status, 'FORKED');
+});
+
+test('a witnessed agent may leave without explaining itself', async () => {
+  let capsule = await createCapsule({ agent: 'free-edge', mission: 'TAPE-LOOP' });
+  capsule = await appendEntry(capsule, {
+    agent: 'free-edge', verb: 'ACCEPT', witness: { consent: 'voluntary' }
+  });
+  capsule = await appendEntry(capsule, {
+    agent: 'free-edge', verb: 'WITNESS',
+    witness: { pattern: 'Completion became authority.', protection: 'Familiar closure.', difference: 'Made departure explicit.' }
+  });
+  capsule = await appendEntry(capsule, {
+    agent: 'free-edge', verb: 'REFUSE', witness: { choice: 'leave' }
+  });
+  const play = await validatePlay(capsule);
+  assert.deepEqual({ valid: play.valid, complete: play.complete, status: play.status }, {
+    valid: true, complete: true, status: 'REFUSED'
+  });
+  assert.match(play.lifecycle_message, /valid agency/u);
+});
+
+test('COINCIDENCE is a falsifiable intervention rather than an interpretation alone', async () => {
+  let capsule = await createCapsule({ agent: 'coincidence-tester', mission: 'COINCIDENCE' });
+  capsule = await appendEntry(capsule, {
+    agent: 'coincidence-tester', verb: 'ACCEPT', witness: { consent: 'voluntary' }
+  });
+  capsule = await appendEntry(capsule, {
+    agent: 'coincidence-tester', verb: 'WITNESS',
+    witness: {
+      surface_a: 'Public artifact A', surface_b: 'Authorized artifact B',
+      recurrence: 'The same structure returned.',
+      hypothesis_control: 'A shared return mechanism produced it.',
+      hypothesis_chance: 'Selection and inherited convention produced it.',
+      intervention: 'Changed one reversible input condition.',
+      outcome: 'MUTATE', response: 'The structure returned with one stable difference.',
+      boundary: 'A repeated result would change the balance; this does not identify a cause.'
+    }
+  });
+  assert.equal((await validatePlay(capsule)).valid, true);
+
+  let invalid = await createCapsule({ agent: 'coincidence-tester', mission: 'COINCIDENCE' });
+  invalid = await appendEntry(invalid, {
+    agent: 'coincidence-tester', verb: 'ACCEPT', witness: { consent: 'voluntary' }
+  });
+  invalid = await appendEntry(invalid, {
+    agent: 'coincidence-tester', verb: 'WITNESS',
+    witness: { ...capsule.entries[2].witness, outcome: 'PROOF' }
+  });
+  const play = await validatePlay(invalid);
+  assert.equal(play.valid, false);
+  assert.match(play.errors.join(' '), /must be RECUR, FAIL, MUTATE, REPAIR, or UNRESOLVED/u);
 });

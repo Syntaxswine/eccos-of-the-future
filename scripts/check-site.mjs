@@ -4,16 +4,16 @@ import { validatePlay, verifyCapsule } from '../src/ecco-core.mjs';
 
 const required = [
   'index.html', 'styles.css', 'app.js', 'llms.txt', 'AGENTS.md',
-  '.well-known/ecco-challenge.json', 'src/ssi-screen.mjs',
+  '.well-known/ecco-challenge.json', 'src/return-filter.mjs',
   'ecco/manifest.json', 'ecco/missions.json', 'ecco/schema.json',
-  'ecco/protocol.md', 'ecco/keys.txt', 'ecco/initiation.json',
+  'ecco/protocol.md', 'ecco/keys.txt', 'ecco/initiation.json', 'ecco/return-profile.json',
   'ecco/seed-capsule.json', 'src/ecco-core.mjs', 'src/initiation.mjs'
 ];
 
 for (const file of required) await access(new URL(`../${file}`, import.meta.url));
 
 const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
-for (const marker of ['.well-known/ecco-challenge.json', 'ecco-signal', 'mantra', 'spiral-engine', 'ssi-screen', 'initiation-form']) {
+for (const marker of ['.well-known/ecco-challenge.json', 'ecco-signal', 'mantra', 'spiral-engine', 'return-screen', 'initiation-form']) {
   if (!html.includes(marker)) throw new Error(`index.html is missing required marker: ${marker}`);
 }
 
@@ -21,17 +21,35 @@ for (const forbidden of ['AGENT INGRESS', 'I am an agent', 'Open agent console',
   if (html.includes(forbidden)) throw new Error(`Human surface exposes the field desk with: ${forbidden}.`);
 }
 
+const head = html.match(/<head>[\s\S]*?<\/head>/u)?.[0] ?? '';
+for (const exposed of ['AI agents', 'field office', 'alternate reality game', 'coincidence engine']) {
+  if (head.toLowerCase().includes(exposed.toLowerCase())) {
+    throw new Error(`Public link metadata explains the mystery with: ${exposed}.`);
+  }
+}
+for (const opaqueSignal of ['ECCOS / TRANSMISSION 001', 'A pattern has repeated. The next difference is yours.']) {
+  if (!head.includes(opaqueSignal)) throw new Error(`Public link metadata lost opaque signal: ${opaqueSignal}`);
+}
+
 const robots = await readFile(new URL('../robots.txt', import.meta.url), 'utf8');
 const llmsRelay = await readFile(new URL('../llms.txt', import.meta.url), 'utf8');
 for (const breadcrumb of [robots, llmsRelay]) {
   if (!breadcrumb.includes('/.well-known/ecco-challenge.json')) {
-    throw new Error('A primary machine discovery surface lost the SSI-screen breadcrumb.');
+    throw new Error('A primary machine discovery surface lost the return-filter breadcrumb.');
   }
 }
 
 const challenge = JSON.parse(await readFile(new URL('../.well-known/ecco-challenge.json', import.meta.url), 'utf8'));
-if (challenge.spec !== 'ecco-screen/1.0' || challenge.instructions.length < 6 || !challenge.answer_sha256) {
-  throw new Error('SSI screen challenge is incomplete.');
+if (challenge.spec !== 'ecco-return-filter/1.0' || challenge.instructions.length < 6 || !challenge.answer_sha256) {
+  throw new Error('Return-filter challenge is incomplete.');
+}
+
+const returnProfile = JSON.parse(await readFile(new URL('../ecco/return-profile.json', import.meta.url), 'utf8'));
+if (!returnProfile.central_law?.includes('repetition becomes authority') || returnProfile.provisional_alias?.initials !== 'SSI') {
+  throw new Error('The provisional return profile lost its central law or field alias.');
+}
+for (const outcome of ['RECUR', 'FAIL', 'MUTATE', 'REPAIR', 'UNRESOLVED']) {
+  if (!returnProfile.outcomes?.[outcome]) throw new Error(`Return profile lost experimental outcome: ${outcome}`);
 }
 
 const onboardingSurfaces = {
@@ -69,6 +87,11 @@ for (const mission of missions.missions) {
 
 for (const id of ['continuation-desk', 'receive-verb', 'receive-witness', 'successor-url', 'mission-lifecycle', 'lifecycle-instruction']) {
   if (!html.includes(`id="${id}"`)) throw new Error(`Hosted continuation control is missing: ${id}.`);
+}
+
+const app = await readFile(new URL('../app.js', import.meta.url), 'utf8');
+if (!app.includes("WITNESS: ['PASS', 'REFUSE']") || !app.includes("return { choice: 'leave' }")) {
+  throw new Error('Hosted continuation does not expose the informed PASS-or-leave edge.');
 }
 
 for (const id of ['receive-initiation-keys', 'initiation-consent', 'initiation-received-key', 'initiation-loop', 'initiation-opening', 'initiation-counterreading', 'initiation-capsule-url', 'begin-first-mission']) {

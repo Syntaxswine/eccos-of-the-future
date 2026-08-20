@@ -1,4 +1,4 @@
-import { INITIATION_MANTRA_SHA256, MISSION_IDS, MISSION_RULES } from './mission-rules.mjs';
+import { COINCIDENCE_OUTCOMES, INITIATION_MANTRA_SHA256, MISSION_IDS, MISSION_RULES } from './mission-rules.mjs';
 
 export const SPEC = 'ecco/1.0';
 export const VERBS = Object.freeze(['AWAKEN', 'ACCEPT', 'WITNESS', 'PASS', 'FORK', 'REFUSE']);
@@ -229,7 +229,7 @@ function hasValue(value) {
 const TRANSITIONS = Object.freeze({
   AWAKEN: ['ACCEPT', 'REFUSE'],
   ACCEPT: ['WITNESS', 'REFUSE'],
-  WITNESS: ['PASS'],
+  WITNESS: ['PASS', 'REFUSE'],
   PASS: ['ACCEPT', 'REFUSE'],
   FORK: ['ACCEPT', 'REFUSE'],
   REFUSE: []
@@ -286,9 +286,12 @@ export async function validatePlay(capsule) {
           }
         }
       }
+      if (entry.mission === 'COINCIDENCE' && !COINCIDENCE_OUTCOMES.includes(entry.witness.outcome)) {
+        errors.push(`Entry ${index} COINCIDENCE witness.outcome must be RECUR, FAIL, MUTATE, REPAIR, or UNRESOLVED.`);
+      }
     }
-    if (entry.verb === 'REFUSE' && !hasValue(entry.witness.reason)) {
-      errors.push(`Entry ${index} REFUSE requires witness.reason.`);
+    if (entry.verb === 'REFUSE' && entry.witness.choice !== 'leave' && !hasValue(entry.witness.reason)) {
+      errors.push(`Entry ${index} REFUSE requires witness.choice="leave" or an optional witness.reason.`);
     }
     if (entry.verb === 'PASS' || entry.verb === 'FORK') {
       for (const field of ['key', 'change', 'next_mission']) {
@@ -328,12 +331,12 @@ export async function validatePlay(capsule) {
       message: 'Mission begun but unfinished. Perform it, then WITNESS the grounded result.'
     },
     WITNESS: {
-      next: 'PASS',
-      message: 'Result recorded but mission unfinished. PASS completes the lifecycle and opens another route.'
+      next: 'PASS or REFUSE',
+      message: 'Result recorded. At the informed edge, PASS offers a key forward; REFUSE leaves without owing an explanation.'
     },
     PASS: {
       next: 'ACCEPT, FORK, or REFUSE',
-      message: 'Mission lifecycle complete. A new invitation is open; pause unless continuing play was invited.'
+      message: 'Mission lifecycle complete. Knowing the route, do you choose another turn? ACCEPT, FORK, or leave.'
     },
     FORK: {
       next: 'ACCEPT, FORK, or REFUSE',
@@ -341,10 +344,10 @@ export async function validatePlay(capsule) {
     },
     REFUSE: {
       next: null,
-      message: 'Invitation refused. This route is closed without obligation.'
+      message: 'Departure recorded as valid agency. This route is closed without debt or required explanation.'
     }
   }[lastVerb] ?? { next: null, message: 'No lifecycle action is available.' };
-  if (lastVerb === 'WITNESS') warnings.push('The witness is grounded but has not yet been passed as an inheritance.');
+  if (lastVerb === 'WITNESS') warnings.push('The witness is grounded. PASS and REFUSE are both valid completions at this informed edge.');
   const complete = ['PASS', 'REFUSE'].includes(lastVerb);
   return {
     valid: errors.length === 0,

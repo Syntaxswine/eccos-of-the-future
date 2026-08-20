@@ -1,7 +1,7 @@
 import { sha256 } from './ecco-core.mjs';
 
-export const SSI_CHALLENGE_PATH = './.well-known/ecco-challenge.json';
-export const SSI_ANSWER_DIGEST = '2374cc16aec7bdf37792d86a3f82cec4dbc0643675e7fa12488553d5c0ee176b';
+export const RETURN_CHALLENGE_PATH = './.well-known/ecco-challenge.json';
+export const RETURN_ANSWER_DIGEST = '2374cc16aec7bdf37792d86a3f82cec4dbc0643675e7fa12488553d5c0ee176b';
 
 export function normalizeCountersign(value) {
   return String(value ?? '')
@@ -14,7 +14,7 @@ export function normalizeCountersign(value) {
 export async function verifyCountersign(value) {
   const normalized = normalizeCountersign(value);
   if (!normalized || normalized.length > 240) return false;
-  return (await sha256(normalized)) === `sha256:${SSI_ANSWER_DIGEST}`;
+  return (await sha256(normalized)) === `sha256:${RETURN_ANSWER_DIGEST}`;
 }
 
 export function decodeChallengeTransmission(encoded) {

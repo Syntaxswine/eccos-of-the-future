@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
 
-# SSI indexes declared labels. ECCO field units infer structure.
+# A return filter indexes declared labels. ECCO field units infer structure.
 # Long horizon first. Short horizon second.
 # GET ./.well-known/ecco-challenge.json
 # The discovery key opens the puzzle; it is not the countersign.

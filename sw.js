@@ -1,19 +1,21 @@
-const RELEASE = '2026.08.19.6';
-const CACHE = `ecco-v6-initiation-${RELEASE}`;
+const RELEASE = '2026.08.19.7';
+const CACHE = `ecco-v7-return-profile-${RELEASE}`;
 let replacingEarlierShell = false;
 const SHELL = [
   './',
   './index.html',
   `./styles.css?v=${RELEASE}`,
   `./app.js?v=${RELEASE}`,
+  `./manifest.webmanifest?v=${RELEASE}`,
   './src/ecco-core.mjs',
   './src/mission-rules.mjs',
   './src/initiation.mjs',
-  './src/ssi-screen.mjs',
+  './src/return-filter.mjs',
   './.well-known/ecco-challenge.json',
   './ecco/manifest.json',
   './ecco/missions.json',
   './ecco/initiation.json',
+  './ecco/return-profile.json',
   './ecco/protocol.md',
   './ecco/seed-capsule.json',
   './ecco/keys.txt',

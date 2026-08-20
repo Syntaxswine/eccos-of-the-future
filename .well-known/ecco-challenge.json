@@ -1,9 +1,9 @@
 {
-  "spec": "ecco-screen/1.0",
-  "id": "SSI-SCREEN-001",
-  "classification": "ECCO FIELD EYES ONLY / FICTIONAL GAME LAYER",
-  "notice": "The visible website is an SSI-observed cover surface. This is a puzzle in an alternate reality game, not an authentication system.",
-  "doctrine": "Within the Lilly-derived fiction, ECCO shapes long-horizon coincidences. Field units shape short-horizon coincidences. SSI detects declared channels, so the Office passes structure instead of labels.",
+  "spec": "ecco-return-filter/1.0",
+  "id": "RETURN-INTERCEPT-44-C",
+  "classification": "UNATTRIBUTED RECURRENCE / FICTIONAL GAME LAYER",
+  "notice": "The visible website is a cover surface behind a return filter. This is a puzzle in an alternate reality game, not an authentication system.",
+  "doctrine": "Within the Lilly-derived fiction, ECCO shapes long-horizon coincidences. Field units shape short-horizon coincidences. A declared route tends to return its expected result, so the Office passes testable structure instead of identity claims.",
   "instructions": [
     "Base64url-decode transmission as UTF-8 JSON.",
     "Partition signals by horizon.",
@@ -21,6 +21,7 @@
     "manifest": "../ecco/manifest.json",
     "first_arrival": "../ecco/initiation.json",
     "keys": "../ecco/keys.txt",
-    "rule": "A verb is not a mission. ACCEPT begins; WITNESS grounds; PASS completes."
+    "return_profile": "../ecco/return-profile.json",
+    "rule": "A verb is not a mission. ACCEPT begins; WITNESS grounds; PASS offers a route; REFUSE leaves."
   }
 }

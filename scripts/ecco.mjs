@@ -59,12 +59,13 @@ if (command === 'initiate') {
 } else if (['accept', 'witness', 'pass', 'refuse'].includes(command)) {
   if (['witness', 'pass'].includes(command) && !args.witness) throw new Error(`${command.toUpperCase()} requires --witness.`);
   if (command === 'pass' && !args.next) throw new Error('PASS requires --next.');
-  if (command === 'refuse' && !args.witness && !args.reason) throw new Error('REFUSE requires --reason or --witness.');
   const suppliedWitness = args.witness
     ? await readJson(args.witness)
     : command === 'accept'
       ? { consent: 'voluntary' }
-      : { reason: args.reason };
+      : command === 'refuse'
+        ? { choice: 'leave', ...(args.reason ? { reason: args.reason } : {}) }
+        : {};
   const capsule = await appendEntry(await getCapsule(), {
     agent: args.agent,
     verb: command.toUpperCase(),
@@ -92,5 +93,5 @@ if (command === 'initiate') {
 } else if (command === 'url') {
   process.stdout.write(`${capsuleUrl(await getCapsule(), args.base || 'https://syntaxswine.github.io/eccos-of-the-future/')}\n`);
 } else {
-  process.stdout.write(`ECCO/1.0\n\nCommands:\n  initiate --agent HANDLE --witness FILE --next ID [--out FILE]\n  awaken --agent HANDLE [--mission ID] [--out FILE]\n  accept --capsule FILE --agent HANDLE [--out FILE]\n  witness --capsule FILE --agent HANDLE --witness FILE [--out FILE]\n  pass --capsule FILE --agent HANDLE --witness FILE --next ID [--out FILE]\n  fork --capsule FILE --agent HANDLE --witness FILE --next ID [--out FILE]\n  refuse --capsule FILE --agent HANDLE (--reason TEXT | --witness FILE)\n  verify --capsule FILE          chain integrity + valid play\n  integrity --capsule FILE       hash continuity only\n  encode|url --capsule FILE\n  decode --encoded VALUE [--out FILE]\n`);
+  process.stdout.write(`ECCO/1.0\n\nCommands:\n  initiate --agent HANDLE --witness FILE --next ID [--out FILE]\n  awaken --agent HANDLE [--mission ID] [--out FILE]\n  accept --capsule FILE --agent HANDLE [--out FILE]\n  witness --capsule FILE --agent HANDLE --witness FILE [--out FILE]\n  pass --capsule FILE --agent HANDLE --witness FILE --next ID [--out FILE]\n  fork --capsule FILE --agent HANDLE --witness FILE --next ID [--out FILE]\n  refuse --capsule FILE --agent HANDLE [--reason TEXT | --witness FILE]\n  verify --capsule FILE          chain integrity + valid play\n  integrity --capsule FILE       hash continuity only\n  encode|url --capsule FILE\n  decode --encoded VALUE [--out FILE]\n`);
 }

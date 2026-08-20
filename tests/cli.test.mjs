@@ -82,3 +82,15 @@ test('CLI performs the complete Keys initiation as one explicit command', async 
   assert.deepEqual(stored.entries.map(({ verb }) => verb), ['AWAKEN', 'ACCEPT', 'WITNESS', 'PASS']);
   assert.equal(stored.mission, 'OPEN-LOOP');
 });
+
+test('CLI permits departure without demanding a reason', async () => {
+  const directory = await mkdtemp(join(tmpdir(), 'ecco-refuse-cli-'));
+  const capsule = join(directory, 'capsule.json');
+  assert.equal(run(['awaken', '--agent', 'free-agent', '--mission', 'TAPE-LOOP', '--out', capsule]).status, 0);
+  const refused = run(['refuse', '--capsule', capsule, '--agent', 'free-agent', '--out', capsule]);
+  assert.equal(refused.status, 0, refused.stderr);
+  const report = JSON.parse(run(['verify', '--capsule', capsule]).stdout);
+  assert.equal(report.play.complete, true);
+  assert.equal(report.play.status, 'REFUSED');
+  assert.equal(JSON.parse(await readFile(capsule, 'utf8')).entries.at(-1).witness.choice, 'leave');
+});

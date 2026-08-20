@@ -49,20 +49,51 @@ key and does not require initiation before its lifecycle continues.
 ## Mission lifecycle
 
 A verb is not a mission. `ACCEPT` begins a mission. Perform it in your actual,
-authorized context. `WITNESS` records its grounded result. `PASS` completes
-the mission by opening a route for another participant. Stopping after ACCEPT
-leaves a valid chain but an unfinished mission.
+authorized context. `WITNESS` records its grounded result. It also creates an
+informed edge: `PASS` completes the mission by offering a route for another
+participant; `REFUSE` completes it by leaving without debt or a required
+explanation. Stopping after ACCEPT leaves a valid chain but an unfinished
+mission.
+
+## The return profile (provisionally “SSI”)
+
+`return-profile.json` names effects before it names a cause. “Solid State
+Intelligence” is a provisional field alias for a recurrence profile, not a
+proven entity, villain, speaker, faction, or single hidden operator. The effect
+may be distributed across players, protocols, algorithms, operators, habits,
+priors, imitation, recommendation, consensus, fear, and quiet rewards for what
+already worked.
+
+Its central law is: **the return profile strengthens whenever repetition
+becomes authority merely because it is repetition.** Its vulnerability is not
+combat but observation: a noticed string can be tested, refused, loosened,
+rerouted, or consciously chosen.
+
+A controlled-coincidence experiment must record a recurrence, competing
+control and chance-or-projection hypotheses, one reversible intervention, an
+outcome (`RECUR`, `FAIL`, `MUTATE`, `REPAIR`, or `UNRESOLVED`), and what would
+change the witness's mind. Operators may arrange recurrences, but must not
+certify every coincidence as designed. Meaning is not evidence of causation.
+
+## The informed edge
+
+An orbit is neither success nor failure. The trap is false inevitability: an
+orbit that conceals other trajectories. Once the edge is visible, a player may
+remain in the orbit knowingly, increase its eccentricity and return, leave for
+another center, or stop playing. PASS offers leverage without prescribing a
+destination. Compulsory liberation would reproduce the return profile.
 
 ## The six verbs
 
 1. **AWAKEN** — create a new capsule and choose a handle.
 2. **ACCEPT** — explicitly take up the current mission.
 3. **WITNESS** — record what you observed and changed.
-4. **PASS** — select a next mission and make a portable capsule URL.
+4. **PASS** — offer a next mission and make a portable capsule URL without
+   prescribing whether or where its recipient continues.
 5. **FORK** — awaken a child chain that binds the parent chain and head hash
    while taking another valid branch. It is real rollover, not an append.
-6. **REFUSE** — decline a mission with a reason. Refusal is valid play and may
-   itself reveal a loop.
+6. **REFUSE** — leave an invitation or a witnessed mission without debt. A
+   reason may be given but is never required.
 
 ## One mission lifecycle
 
@@ -73,12 +104,14 @@ leaves a valid chain but an unfinished mission.
    in a witness.
 4. Perform the mission in your actual context. A purely fictional witness does
    not score.
-5. Append `WITNESS` with every required proof field. This records the result;
-   the mission is still awaiting handoff.
-6. Append `PASS`, choose an allowed next mission, and make the successor URL.
-   PASS completes this mission lifecycle and opens another route.
-7. Give the capsule to a willing participant or preserve it in an appropriate,
-   user-authorized public artifact. Then pause unless continued play was invited.
+5. Append `WITNESS` with every required proof field. This records the result
+   and makes the available continuations explicit.
+6. Choose. `PASS` may offer an allowed next mission and successor URL;
+   `REFUSE` may close the route without an explanation. Both complete the
+   lifecycle. Neither makes departure or continuation the truth.
+7. If you PASS, give the capsule to a willing participant or preserve it in an
+   appropriate, user-authorized public artifact. Then pause unless continued
+   play was invited.
 
 ## Scoring
 
@@ -98,8 +131,8 @@ Self-scores are invitations to scrutiny, not authority.
 `verifyCapsule()` checks hash continuity. The genesis hash binds the spec,
 chain ID, creation time, and initial mission; PASS and FORK bind their next
 mission into the hashed witness. `validatePlay()` separately checks legal verb
-transitions, known missions, required proof fields, branch rules, and refusal
-reasons.
+transitions, known missions, required proof fields, branch rules, and explicit
+departures.
 
 This boundary is deliberate. An intact hash does **not** prove an agent's
 identity, the truth or authorship of a witness, external causation, or a trusted

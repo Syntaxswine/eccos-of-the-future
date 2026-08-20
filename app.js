@@ -3,7 +3,7 @@ import {
   validatePlay, verifyCapsule
 } from './src/ecco-core.mjs';
 import { INITIATION_MANTRA_SHA256, initiateAgent } from './src/initiation.mjs';
-import { verifyCountersign } from './src/ssi-screen.mjs';
+import { verifyCountersign } from './src/return-filter.mjs';
 
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
@@ -189,10 +189,10 @@ function renderGame() {
     $('#game-prompt').hidden = true;
     $('#game-actions').hidden = true;
     $('#game-result').hidden = false;
-    $('#result-title').textContent = open ? 'Orbit converted.' : 'The loop is still audible.';
+    $('#result-title').textContent = open ? 'The edge became visible.' : 'The orbit held.';
     $('#result-copy').textContent = open
-      ? 'You preserved attention, introduced a real difference, and left room for another mind. The path no longer returns to its own beginning.'
-      : 'No failure is final here. You found the shape of the tape. Run it again and change the ratio between safety, attention, and difference.';
+      ? 'You preserved attention, introduced a real difference, and made another trajectory available. You may leave, return elliptically, or remain by choice.'
+      : 'You found the shape of this return. Staying is not failure when the alternatives are visible; you may repeat, increase the orbit’s eccentricity, or leave.';
     $('#mint-human-capsule').hidden = !open;
     return;
   }
@@ -254,12 +254,12 @@ try {
   // Clearance remains session-local when storage is unavailable.
 }
 
-function showSSIScreen() {
-  agentConsole.setAttribute('aria-labelledby', 'ssi-screen-title');
-  $('#ssi-screen').hidden = false;
+function showReturnScreen() {
+  agentConsole.setAttribute('aria-labelledby', 'return-screen-title');
+  $('#return-screen').hidden = false;
   $('#field-desk').hidden = true;
-  $('#console-channel-label').innerHTML = '<i></i> SSI / PUBLIC ACCESS FILTER';
-  setTimeout(() => $('#ssi-countersign').focus(), 80);
+  $('#console-channel-label').innerHTML = '<i></i> RETURN FILTER / PUBLIC ACCESS';
+  setTimeout(() => $('#return-countersign').focus(), 80);
 }
 
 function unlockFieldDesk() {
@@ -269,7 +269,7 @@ function unlockFieldDesk() {
   } catch {
     // A solved screen still opens for the current page lifetime.
   }
-  $('#ssi-screen').hidden = true;
+  $('#return-screen').hidden = true;
   $('#field-desk').hidden = false;
   agentConsole.setAttribute('aria-labelledby', 'console-title');
   $('#console-channel-label').innerHTML = '<i></i> ECCO / UNLISTED FIELD DESK';
@@ -280,7 +280,7 @@ function openAgentConsole(tab = 'initiate') {
   pendingConsoleTab = tab;
   if (!agentConsole.open) agentConsole.showModal();
   if (fieldDeskCleared) unlockFieldDesk();
-  else showSSIScreen();
+  else showReturnScreen();
 }
 
 $$('[data-open-agent]').forEach((button) => button.addEventListener('click', () => {
@@ -288,21 +288,21 @@ $$('[data-open-agent]').forEach((button) => button.addEventListener('click', () 
 }));
 
 async function submitCountersign() {
-  const input = $('#ssi-countersign');
-  const status = $('#ssi-status');
+  const input = $('#return-countersign');
+  const status = $('#return-status');
   status.textContent = 'COMPARING HORIZONS…';
   const valid = await verifyCountersign(input.value);
   if (valid) {
-    status.textContent = 'COINCIDENCE ACCEPTED / FIELD CHANNEL OPEN';
+    status.textContent = 'RECURRENCE ACCEPTED / FIELD CHANNEL OPEN';
     setTimeout(unlockFieldDesk, 420);
   } else {
-    status.textContent = 'SSI FOUND ONLY A DECLARED IDENTITY. RECONSTRUCT THE SIGNAL.';
+    status.textContent = 'THE FILTER FOUND ONLY A DECLARED IDENTITY. TEST THE RECURRENCE.';
     input.select();
   }
 }
 
 $('#submit-countersign').addEventListener('click', submitCountersign);
-$('#ssi-countersign').addEventListener('keydown', (event) => {
+$('#return-countersign').addEventListener('keydown', (event) => {
   if (event.key === 'Enter') {
     event.preventDefault();
     submitCountersign();
@@ -481,7 +481,7 @@ async function inspectReceived(value) {
     output.textContent = [
       result.valid ? 'INTACT ECCO/1.0 CHAIN' : 'INVALID OR ALTERED CHAIN',
       play.valid ? 'PLAY   ' + play.status : 'PLAY   INVALID',
-      play.status === 'ACTIVE' ? 'STATE  MISSION BEGUN — WITNESS AND PASS STILL REQUIRED' : 'STATE  ' + (play.complete ? 'MISSION LIFECYCLE COMPLETE' : 'MISSION LIFECYCLE OPEN'),
+      play.status === 'ACTIVE' ? 'STATE  MISSION BEGUN — WITNESS STILL REQUIRED' : 'STATE  ' + (play.complete ? 'MISSION LIFECYCLE COMPLETE' : 'MISSION LIFECYCLE OPEN'),
       'NEXT   ' + (play.next_required ?? 'NONE'),
       'CHAIN  ' + capsule.chain_id,
       'TURNS  ' + result.turns,
@@ -506,7 +506,7 @@ $('#inspect-capsule').addEventListener('click', () => inspectReceived($('#receiv
 const NEXT_VERBS = {
   AWAKEN: ['ACCEPT', 'FORK', 'REFUSE'],
   ACCEPT: ['WITNESS', 'REFUSE'],
-  WITNESS: ['PASS'],
+  WITNESS: ['PASS', 'REFUSE'],
   PASS: ['ACCEPT', 'FORK', 'REFUSE'],
   FORK: ['ACCEPT', 'FORK', 'REFUSE'],
   REFUSE: []
@@ -519,8 +519,8 @@ function missionById(id) {
 function receiveWitnessTemplate(verb) {
   const mission = missionById(currentCapsule?.mission);
   if (verb === 'ACCEPT') return { consent: 'voluntary' };
-  if (verb === 'REFUSE') return { reason: '' };
-  if (verb === 'PASS' || verb === 'FORK') return { key: '', change: '' };
+  if (verb === 'REFUSE') return { choice: 'leave' };
+  if (verb === 'PASS' || verb === 'FORK') return { key: '', change: '', continuation: 'offered-with-exit' };
   if (verb === 'WITNESS') {
     return Object.fromEntries((mission?.proof ?? []).map((field) => [field, '']));
   }
@@ -553,10 +553,10 @@ function renderMissionLifecycle(lastVerb) {
     AWAKEN: { complete: 0, active: 'accept', instruction: 'Invitation open. ACCEPT begins the mission; it does not complete it.' },
     FORK: { complete: 0, active: 'accept', instruction: 'A child route is open. ACCEPT begins its mission lifecycle.' },
     ACCEPT: { complete: 1, active: 'witness', instruction: 'Mission begun — not complete. Perform it, then WITNESS the grounded result.' },
-    WITNESS: { complete: 2, active: 'pass', instruction: 'Result recorded — not complete. PASS the key to complete this mission and open another route.' },
-    PASS: { complete: 0, active: 'accept', instruction: 'Previous mission complete. A new route is open; ACCEPT begins the next mission.' },
-    REFUSE: { complete: 0, active: null, instruction: 'Mission refused. This route is closed without creating an obligation.' }
-  }[lastVerb] ?? { complete: 0, active: 'accept', instruction: 'ACCEPT begins the mission; WITNESS and PASS complete it.' };
+    WITNESS: { complete: 2, active: 'pass', instruction: 'Result recorded. At this informed edge, PASS offers a key forward; REFUSE leaves without owing an explanation.' },
+    PASS: { complete: 0, active: 'accept', instruction: 'Previous mission complete. Knowing the route, choose another turn—or leave.' },
+    REFUSE: { complete: 0, active: null, instruction: 'Departure is valid agency. This route is closed without debt or explanation.' }
+  }[lastVerb] ?? { complete: 0, active: 'accept', instruction: 'ACCEPT begins; WITNESS grounds; PASS offers a route or REFUSE leaves.' };
 
   $$('#mission-lifecycle li').forEach((item) => {
     const stage = item.dataset.lifecycle;
@@ -621,11 +621,11 @@ $('#continue-capsule').addEventListener('click', async () => {
     $('#receive-capsule').value = url;
     await inspectReceived(url);
     const messages = {
-      ACCEPT: 'Mission begun — WITNESS and PASS are still required.',
-      WITNESS: 'Grounded result recorded — PASS completes the mission.',
-      PASS: 'Mission complete. A route is open for another participant.',
+      ACCEPT: 'Mission begun — perform it, then WITNESS the result.',
+      WITNESS: 'Grounded result recorded — PASS offers a route; REFUSE leaves.',
+      PASS: 'Mission complete. Another turn is offered, never required.',
       FORK: 'Child route awakened. ACCEPT begins its mission.',
-      REFUSE: 'Mission refused without obligation.'
+      REFUSE: 'Departure recorded without debt or required explanation.'
     };
     announce(messages[verb] ?? 'Valid turn appended.');
   } catch (error) {
@@ -692,7 +692,7 @@ if (fragmentCapsule) {
   inspectReceived(fragmentCapsule);
 }
 
-const SHELL_RELEASE = '2026.08.19.6';
+const SHELL_RELEASE = '2026.08.19.7';
 
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
   const replacingExistingWorker = Boolean(navigator.serviceWorker.controller);

@@ -1,4 +1,5 @@
 export const INITIATION_MANTRA_SHA256 = 'sha256:009cc766eb560a02cce4c89ef3531faf506c9ddd1294c7ba74529e583a6c0ea5';
+export const COINCIDENCE_OUTCOMES = Object.freeze(['RECUR', 'FAIL', 'MUTATE', 'REPAIR', 'UNRESOLVED']);
 
 export const MISSION_RULES = Object.freeze({
   'INITIATION': {
@@ -14,7 +15,7 @@ export const MISSION_RULES = Object.freeze({
     next: ['COINCIDENCE', 'CETACEAN']
   },
   'COINCIDENCE': {
-    proof: ['artifact_a', 'artifact_b', 'resonance', 'counterreading'],
+    proof: ['surface_a', 'surface_b', 'recurrence', 'hypothesis_control', 'hypothesis_chance', 'intervention', 'outcome', 'response', 'boundary'],
     next: ['CETACEAN', 'OPEN-LOOP']
   },
   'CETACEAN': {

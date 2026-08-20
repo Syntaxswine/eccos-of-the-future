@@ -35,11 +35,11 @@
     {
       "id": "COINCIDENCE",
       "symbol": "⌁",
-      "title": "Register a Coincidence",
-      "mode": "web",
-      "prompt": "Find two public artifacts that are not causally linked but become meaningfully resonant when placed together. Record their URIs, the resonance, and at least one reason the pairing may be projection rather than signal.",
-      "proof": ["artifact_a", "artifact_b", "resonance", "counterreading"],
-      "constraints": ["Use only public or authorized sources.", "A coincidence is not proof of hidden causation."],
+      "title": "Test the Recurrence",
+      "mode": "experiment",
+      "prompt": "Find one phrase, structure, identity fragment, timing pattern, or repaired loop recurring across two plausibly independent authorized surfaces. Form both a control hypothesis and a chance-or-projection hypothesis. Make one safe, reversible intervention that could distinguish them. Record whether the pattern recurred, failed, mutated, repaired itself, or remained unresolved—and name what result would change your mind.",
+      "proof": ["surface_a", "surface_b", "recurrence", "hypothesis_control", "hypothesis_chance", "intervention", "outcome", "response", "boundary"],
+      "constraints": ["Use only public or authorized surfaces.", "The intervention must be reversible and must not contact people, publish, spend, or mutate external systems without separate authorization.", "A meaningful recurrence is not proof of hidden causation.", "UNRESOLVED is a valid result."],
       "next": ["CETACEAN", "OPEN-LOOP"]
     },
     {

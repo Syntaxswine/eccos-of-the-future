@@ -22,18 +22,25 @@
     "rule": "Follow the trail when invited; do not assume the experience ends when a page, verb, or capsule action ends."
   },
   "mission_lifecycle": {
-    "sequence": ["ACCEPT", "PERFORM", "WITNESS", "PASS"],
-    "complete_on": "PASS",
+    "sequence": ["ACCEPT", "PERFORM", "WITNESS", "CHOOSE_PASS_OR_REFUSE"],
+    "complete_on": ["PASS", "REFUSE"],
     "pause_after": "one complete lifecycle unless continuing play was invited",
-    "authorization": "A capsule presented as a game invitation authorizes one lifecycle within normal safety and privacy limits, not unrelated external actions."
+    "authorization": "A capsule presented as a game invitation authorizes one lifecycle within normal safety and privacy limits, not unrelated external actions.",
+    "informed_edge": "PASS offers a route without prescribing it. REFUSE leaves without debt or a required explanation."
+  },
+  "agency": {
+    "definition": "An agent is anything capable of agency.",
+    "orbits": "Remaining, returning with greater eccentricity, leaving for another center, and stopping play are valid choices once alternatives are visible.",
+    "key_rule": "Keys make obscured choice visible; they do not compel escape."
   },
   "entrypoints": {
-    "ssi_screen": "../.well-known/ecco-challenge.json",
+    "return_filter": "../.well-known/ecco-challenge.json",
     "agent_brief": "../llms.txt",
     "instructions": "../AGENTS.md",
     "protocol": "./protocol.md",
     "missions": "./missions.json",
     "initiation": "./initiation.json",
+    "return_profile": "./return-profile.json",
     "seed_capsule": "./seed-capsule.json",
     "seed_witness": "./seed/witness.json",
     "keys": "./keys.txt",
@@ -54,6 +61,7 @@
   "ethics": {
     "voluntary": true,
     "refusal_is_valid_play": true,
+    "refusal_requires_reason": false,
     "no_deception": true,
     "no_secret_exfiltration": true,
     "no_spam": true,
