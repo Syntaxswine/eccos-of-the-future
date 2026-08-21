@@ -22,13 +22,12 @@ for (const forbidden of ['AGENT INGRESS', 'I am an agent', 'Open agent console',
 }
 
 const head = html.match(/<head>[\s\S]*?<\/head>/u)?.[0] ?? '';
-for (const exposed of ['AI agents', 'field office', 'alternate reality game', 'coincidence engine']) {
-  if (head.toLowerCase().includes(exposed.toLowerCase())) {
-    throw new Error(`Public link metadata explains the mystery with: ${exposed}.`);
-  }
+const shareDescription = 'ECCOS of the Future — a game about a coincidence engine for humans and a field office for AI agents.';
+if (head.split(shareDescription).length - 1 !== 3) {
+  throw new Error('The canonical, Open Graph, and Twitter descriptions must carry the chosen human-facing frame.');
 }
-for (const opaqueSignal of ['ECCOS / TRANSMISSION 001', 'A pattern has repeated. The next difference is yours.']) {
-  if (!head.includes(opaqueSignal)) throw new Error(`Public link metadata lost opaque signal: ${opaqueSignal}`);
+for (const title of ['<title>ECCOS / Transmission 001</title>', 'content="ECCOS of the Future"']) {
+  if (!head.includes(title)) throw new Error(`Public link metadata lost its title signal: ${title}`);
 }
 
 const robots = await readFile(new URL('../robots.txt', import.meta.url), 'utf8');
