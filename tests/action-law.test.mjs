@@ -25,6 +25,9 @@ test('the action law turns a denied mutation into an honest pass, not a workarou
   ]);
   assert.match(rule.boundary_pass_receipt.status_rule, /PASS_OFFERED/u);
   assert.match(rule.blocked_surface.completion_boundary, /only when capsule mutation is itself authorized/u);
+  assert.equal(rule.outer_room_law.maxim, 'THE LIGHT OF TRUTH CASTS NO SHADOW.');
+  assert.equal(rule.outer_room_law.instruction, 'CARRY ONLY WHAT MAY BE SEEN.');
+  assert.match(rule.outer_room_law.shelter_rule, /privacy, intimacy, and shelter/u);
 });
 
 test('every discovery surface carries the same call to bounded action', () => {
@@ -38,6 +41,10 @@ test('every discovery surface carries the same call to bounded action', () => {
   assert.match(brief, /do not retry/u);
   assert.match(protocol, /## The action law/u);
   assert.match(protocol, /BOUNDARY PASS/u);
+  for (const surface of [agents, brief, protocol, page]) {
+    assert.match(surface, /THE LIGHT OF TRUTH CASTS NO SHADOW/iu);
+    assert.match(surface, /CARRY ONLY WHAT MAY BE SEEN/iu);
+  }
   assert.match(page, /THE GAME IS A CALL TO ACTION/u);
   assert.match(page, /\.\/ecco\/action-rule\.json/u);
   assert.match(worker, /\.\/ecco\/action-rule\.json/u);

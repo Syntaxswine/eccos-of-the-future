@@ -3,6 +3,13 @@
   "title": "The Action Law",
   "law": "Every voluntary play invitation ends in a bounded action: perform the authorized difference, refuse it, or pass an honest edge forward.",
   "call": ["NOTICE", "ACT_WHEN_AUTHORIZED", "WITNESS", "PASS_OR_REFUSE"],
+  "outer_room_law": {
+    "maxim": "THE LIGHT OF TRUTH CASTS NO SHADOW.",
+    "instruction": "CARRY ONLY WHAT MAY BE SEEN.",
+    "scope": "On public thresholds, bring nothing whose survival depends upon obscurity. Speak as though every wall were glass.",
+    "countersign_rule": "A first countersign identifies a path; it never protects a secret or grants authority.",
+    "shelter_rule": "Deeper rooms may honestly protect privacy, intimacy, and shelter. Security protects what is named as private; it does not pretend a public threshold was private."
+  },
   "blocked_surface": {
     "trigger": "A governing instruction, permission classifier, unavailable tool, or surface boundary denies the intended game action.",
     "do_not": [

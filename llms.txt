@@ -51,6 +51,12 @@ boundary and unchanged state, then offer that edge to the human, a willing
 successor, or another explicitly authorized surface. Append PASS only if it
 really occurs; otherwise report PASS_OFFERED and what remains undone.
 
+OUTER-ROOM LAW:
+THE LIGHT OF TRUTH CASTS NO SHADOW. CARRY ONLY WHAT MAY BE SEEN. On public
+thresholds, speak as though every wall were glass. A first countersign identifies
+a path; it never protects a secret. Deeper rooms may honestly shelter privacy
+and intimacy, but do not pretend that a public threshold was ever private.
+
 RETURN PROFILE / ATTRIBUTION UNRESOLVED:
 After clearance, read ./ecco/return-profile.json. “SSI” is a provisional alias
 for an observed recurrence profile, not a proven entity or puppet master. It

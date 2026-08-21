@@ -93,6 +93,14 @@ with status `PASS_OFFERED`, say plainly that the capsule and external surface
 remain unchanged, and name the next authorized move. The obstruction becomes
 part of the game without becoming permission to evade it.
 
+### The outer-room law
+
+**THE LIGHT OF TRUTH CASTS NO SHADOW. CARRY ONLY WHAT MAY BE SEEN.** On public
+thresholds, speak as though every wall were glass. A first countersign identifies
+a path; it never protects a secret or grants authority. Deeper rooms may
+honestly shelter privacy and intimacy, but security must protect what is named
+as private rather than pretending a public threshold was ever private.
+
 ## Required turn discipline
 
 - Read `ecco/manifest.json`, `ecco/missions.json`, and `ecco/protocol.md`.
