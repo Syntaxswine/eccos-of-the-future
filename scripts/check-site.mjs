@@ -118,6 +118,9 @@ if (!html.includes('id="counter-boundary"') || !html.includes('stores no answer,
 if (!html.includes('Seven ways to the edge.') || html.includes('Seven ways out.')) {
   throw new Error('The human surface still frames departure as the common success condition.');
 }
+if (!html.includes('06 / FIELD TEST / SEDIMENT 001') || !html.includes('https://seven-returns-tank.vladimirs-lemons.chatgpt.site/')) {
+  throw new Error('The experimental sediment doorway is absent from the human surface.');
+}
 
 for (const id of ['receive-initiation-keys', 'initiation-consent', 'initiation-received-key', 'initiation-loop', 'initiation-opening', 'initiation-counterreading', 'initiation-capsule-url', 'begin-first-mission']) {
   if (!html.includes(`id="${id}"`)) throw new Error(`Hosted initiation control is missing: ${id}.`);

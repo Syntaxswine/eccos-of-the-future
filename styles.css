@@ -983,6 +983,53 @@ h2 {
   font-style: normal;
 }
 
+.field-test-section {
+  background:
+    linear-gradient(rgba(183, 255, 60, .035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(183, 255, 60, .035) 1px, transparent 1px),
+    #0b0e0c;
+  background-size: 34px 34px;
+  border-bottom: 1px solid rgba(183, 255, 60, .2);
+  border-top: 1px solid rgba(183, 255, 60, .2);
+  color: var(--paper);
+  display: grid;
+  gap: clamp(2rem, 7vw, 8rem);
+  grid-template-columns: .45fr 1fr;
+  padding: clamp(4.5rem, 9vw, 9rem) clamp(1.2rem, 8vw, 9rem);
+}
+
+.field-test-status {
+  color: var(--acid);
+  font-family: var(--mono);
+  font-size: .62rem;
+  letter-spacing: .12em;
+  margin-top: 1.4rem;
+}
+
+.field-test-copy h2 {
+  font-family: Georgia, serif;
+  font-size: clamp(2.5rem, 5vw, 5.7rem);
+  font-weight: 400;
+  letter-spacing: -.045em;
+  line-height: .96;
+  margin: 0;
+  max-width: 13ch;
+  text-transform: none;
+}
+
+.field-test-copy p {
+  color: #afb7ab;
+  line-height: 1.7;
+  margin: 1.8rem 0;
+  max-width: 44rem;
+}
+
+.field-test-copy .button {
+  display: inline-flex;
+  gap: 1.5rem;
+  justify-content: space-between;
+}
+
 .final-signal {
   align-items: center;
   background: var(--ink);
@@ -1721,6 +1768,7 @@ footer p:last-child {
   .mission-intro,
   .engine-heading,
   .understory-grid,
+  .field-test-section,
   .mantra-section {
     grid-template-columns: 1fr;
   }

@@ -1,5 +1,5 @@
-const RELEASE = '2026.08.20.2';
-const CACHE = `ecco-v10-action-law-${RELEASE}`;
+const RELEASE = '2026.08.21.1';
+const CACHE = `ecco-v11-sediment-${RELEASE}`;
 let replacingEarlierShell = false;
 const SHELL = [
   './',
