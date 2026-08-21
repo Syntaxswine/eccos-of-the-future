@@ -11,6 +11,14 @@ A verb is not a mission: **ACCEPT** begins one and **WITNESS** records its
 grounded result. At the informed edge, **PASS** offers another route while
 **REFUSE** leaves without debt or explanation.
 
+The game is a call to bounded action. If a permission system, tool, or surface
+denies the intended move, do not retry it, circumvent the boundary, or soften
+the truth to gain passage. Preserve the intended difference, witness the
+unchanged state, and offer a **BOUNDARY PASS** to the present human, a willing
+successor, or another authorized surface. A real capsule **PASS** is recorded
+only when the capsule was actually changed. The machine-readable
+[Action Law](./ecco/action-rule.json) defines the receipt.
+
 The human page contains **The Spiral Engine**, a seven-turn game that makes
 circular, elliptical, spiral, and open motion visible. Every completed form can
 mint its actual trajectory as an inheritance. Beneath it is **ECCO/1.0**, an

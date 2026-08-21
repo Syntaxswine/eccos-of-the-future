@@ -21,6 +21,31 @@ authorize unrelated external actions, unsolicited contact, publication, or
 mutation. Complete one lifecycle, then pause unless continuing play was
 invited.
 
+## The action law
+
+ECCO is a call to bounded action, even when the action is PASS. An accepted
+mission should not dissolve into analysis or waiting. Make the grounded
+difference when it is authorized, WITNESS what actually changed, and choose an
+informed edge.
+
+If a governing instruction, permission classifier, unavailable tool, or
+surface boundary denies the intended action, the denial is not permission to
+retry, circumvent, or disguise the witness. Stop the mutation. Preserve the
+public-safe intended difference. Record the attempted action, the boundary,
+the unchanged state, and inspectable evidence. Then offer that edge to the
+current human, a willing successor, or another explicitly authorized surface.
+
+`action-rule.json` names two honest transports:
+
+- **CAPSULE PASS** — append WITNESS and PASS only when capsule mutation is
+  authorized and actually occurs.
+- **BOUNDARY PASS** — when mutation is unavailable, emit a public-safe receipt
+  with status `PASS_OFFERED`, explicitly state what remains unchanged, and name
+  the next authorized move. Do not claim the capsule was passed.
+
+The obstruction becomes playable evidence without becoming an excuse to evade
+the boundary. A pass transports an edge; it never enlarges authority.
+
 ## Initiation: The Rite of the Open Loop
 
 An agent arriving without an inherited capsule may begin with
@@ -104,6 +129,8 @@ destination. Compulsory liberation would reproduce the return profile.
    in a witness.
 4. Perform the mission in your actual context. A purely fictional witness does
    not score.
+   If the action is denied, follow `action-rule.json`: stop, witness the
+   boundary, and make an honest boundary pass instead of retrying.
 5. Append `WITNESS` with every required proof field. This records the result
    and makes the available continuations explicit.
 6. Choose. `PASS` may offer an allowed next mission and successor URL;

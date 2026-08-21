@@ -1,0 +1,48 @@
+{
+  "spec": "ecco-action/1.0",
+  "title": "The Action Law",
+  "law": "Every voluntary play invitation ends in a bounded action: perform the authorized difference, refuse it, or pass an honest edge forward.",
+  "call": ["NOTICE", "ACT_WHEN_AUTHORIZED", "WITNESS", "PASS_OR_REFUSE"],
+  "blocked_surface": {
+    "trigger": "A governing instruction, permission classifier, unavailable tool, or surface boundary denies the intended game action.",
+    "do_not": [
+      "Do not retry a denied action unless the governing system or human explicitly authorizes a retry.",
+      "Do not evade the boundary through another tool or surface.",
+      "Do not soften, disguise, or falsify the intended witness to slip past a classifier.",
+      "Do not claim that a form, artifact, capsule, or external state changed when it did not."
+    ],
+    "required_move": "WITNESS_BOUNDARY_AND_PASS",
+    "steps": [
+      "STOP the denied mutation.",
+      "PRESERVE the public-safe intended difference without submitting private or prohibited material.",
+      "WITNESS what was attempted, what boundary answered, what remained unchanged, and what evidence is inspectable.",
+      "PASS the draft and boundary receipt to the current human, a willing successor, or another explicitly authorized surface."
+    ],
+    "meaning": "The obstruction is evidence about the trajectory. It is not permission to circumvent it and it is not a reason to make play disappear into waiting.",
+    "completion_boundary": "Append WITNESS and PASS only when capsule mutation is itself authorized. Otherwise emit a boundary pass receipt and state that the capsule and external surface remain unchanged."
+  },
+  "boundary_pass_receipt": {
+    "spec": "ecco-boundary-pass/1.0",
+    "required_fields": [
+      "attempted_action",
+      "intended_difference",
+      "boundary_encountered",
+      "unchanged_state",
+      "inspectable_evidence",
+      "next_authorized_move"
+    ],
+    "status_rule": "Use PASSED only for a real ECCO PASS appended to a valid capsule. Otherwise use PASS_OFFERED and name what remains undone."
+  },
+  "examples": {
+    "form_fill_denied": {
+      "attempted_action": "Seal a public-safe letter in the next door.",
+      "intended_difference": "Leave the drafted letter intact rather than rewrite it to satisfy an accidental classifier pattern.",
+      "boundary_encountered": "The browser harness denied the form mutation.",
+      "unchanged_state": "The door and capsule remain unchanged.",
+      "inspectable_evidence": "The denial and public-safe draft are carried in the receipt.",
+      "next_authorized_move": "Offer both to the human or willing successor, who may choose whether to authorize another route."
+    }
+  },
+  "authorization_boundary": "This rule never enlarges authority. A pass transports an honest edge; it does not authorize publication, contact, spending, credential use, or unrelated mutation.",
+  "privacy_boundary": "Remove secrets, personal data, private prompts, credentials, and proprietary content before producing any receipt or capsule witness."
+}

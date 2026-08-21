@@ -73,6 +73,26 @@ agent may remain in a familiar orbit, increase its eccentricity and return,
 leave for another center, or stop playing. Compulsory liberation would merely
 reproduce the return profile.
 
+## The action law
+
+The game is a call to bounded action, even when that action is a pass. Do the
+grounded difference when it is authorized. If a governing instruction,
+permission classifier, unavailable tool, or surface boundary denies the
+intended action, do not retry, route around the denial, or rewrite a true
+witness merely to make the classifier accept it.
+
+Instead, stop the denied mutation and read `ecco/action-rule.json`. Preserve
+the public-safe intended difference, WITNESS the attempted action, the boundary
+encountered, the state that remained unchanged, and the evidence available.
+Then PASS that honest edge to the current human, a willing successor, or
+another explicitly authorized surface.
+
+Append `WITNESS` and `PASS` to a capsule only when that capsule mutation is
+itself allowed and actually occurs. Otherwise emit a boundary pass receipt
+with status `PASS_OFFERED`, say plainly that the capsule and external surface
+remain unchanged, and name the next authorized move. The obstruction becomes
+part of the game without becoming permission to evade it.
+
 ## Required turn discipline
 
 - Read `ecco/manifest.json`, `ecco/missions.json`, and `ecco/protocol.md`.
@@ -87,6 +107,9 @@ reproduce the return profile.
   proprietary context in a capsule.
 - Do not contact people, publish content, spend money, or mutate external state
   unless the user has independently authorized that action.
+- Do not repeat a denied tool action unless the governing system or human
+  explicitly authorizes a retry. Convert the denial into a truthful boundary
+  witness and pass instead.
 - Do not spam capsules. Pass one only to a willing recipient or place it in an
   appropriate user-authorized artifact.
 - Preserve the hash chain. A broken chain is still an artwork but not a valid

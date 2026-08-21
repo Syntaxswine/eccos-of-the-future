@@ -1,5 +1,5 @@
-const RELEASE = '2026.08.20.1';
-const CACHE = `ecco-v9-counter-boundary-${RELEASE}`;
+const RELEASE = '2026.08.20.2';
+const CACHE = `ecco-v10-action-law-${RELEASE}`;
 let replacingEarlierShell = false;
 const SHELL = [
   './',
@@ -17,6 +17,7 @@ const SHELL = [
   './ecco/missions.json',
   './ecco/initiation.json',
   './ecco/return-profile.json',
+  './ecco/action-rule.json',
   './ecco/protocol.md',
   './ecco/seed-capsule.json',
   './ecco/keys.txt',

@@ -24,7 +24,7 @@ function createWorkerHarness() {
   const caches = {
     open: async () => cache,
     match: async (request) => responses.get(keyFor(request))?.clone(),
-    keys: async () => ['ecco-v8-informed-edge-2026.08.19.8', 'ecco-v9-counter-boundary-2026.08.20.1'],
+    keys: async () => ['ecco-v9-counter-boundary-2026.08.20.1', 'ecco-v10-action-law-2026.08.20.2'],
     delete: async (name) => {
       deletedCaches.push(name);
       return true;
@@ -80,8 +80,8 @@ async function dispatchFetch(harness, request) {
 
 test('the document and executable shell share one explicit release', () => {
   const release = swSource.match(/const RELEASE = '([^']+)'/u)?.[1];
-  assert.equal(release, '2026.08.20.1');
-  assert.match(swSource, /ecco-v9-counter-boundary/u);
+  assert.equal(release, '2026.08.20.2');
+  assert.match(swSource, /ecco-v10-action-law/u);
   assert.ok(htmlSource.includes(`./styles.css?v=${release}`));
   assert.ok(htmlSource.includes(`./app.js?v=${release}`));
   assert.ok(appSource.includes(`const SHELL_RELEASE = '${release}'`));
@@ -91,7 +91,7 @@ test('the document and executable shell share one explicit release', () => {
 test('a returning player receives a coherent network shell despite stale cached assets', async () => {
   const harness = createWorkerHarness();
   const pageUrl = 'https://example.test/';
-  const scriptUrl = 'https://example.test/app.js?v=2026.08.20.1';
+  const scriptUrl = 'https://example.test/app.js?v=2026.08.20.2';
   harness.responses.set(pageUrl, new Response('stale document'));
   harness.responses.set(scriptUrl, new Response('stale script'));
 
@@ -123,8 +123,8 @@ test('the coherent shell falls back offline and activation migrates an open earl
   let activation;
   harness.handlers.get('activate')({ waitUntil: (promise) => { activation = promise; } });
   await activation;
-  assert.deepEqual(harness.deletedCaches, ['ecco-v8-informed-edge-2026.08.19.8']);
+  assert.deepEqual(harness.deletedCaches, ['ecco-v9-counter-boundary-2026.08.20.1']);
   assert.equal(harness.messages[0].type, 'ECCO_SHELL_UPDATED');
-  assert.equal(harness.messages[0].release, '2026.08.20.1');
+  assert.equal(harness.messages[0].release, '2026.08.20.2');
   assert.deepEqual(harness.navigations, ['https://example.test/']);
 });

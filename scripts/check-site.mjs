@@ -6,7 +6,7 @@ const required = [
   'index.html', 'styles.css', 'app.js', 'llms.txt', 'AGENTS.md',
   '.well-known/ecco-challenge.json', 'src/return-filter.mjs',
   'ecco/manifest.json', 'ecco/missions.json', 'ecco/schema.json',
-  'ecco/protocol.md', 'ecco/keys.txt', 'ecco/initiation.json', 'ecco/return-profile.json',
+  'ecco/protocol.md', 'ecco/keys.txt', 'ecco/initiation.json', 'ecco/return-profile.json', 'ecco/action-rule.json',
   'ecco/seed-capsule.json', 'src/ecco-core.mjs', 'src/initiation.mjs', 'src/spiral-engine.mjs'
 ];
 
@@ -73,6 +73,17 @@ if (!onboardingSurfaces['AGENTS.md'].includes('Complete one mission lifecycle'))
 }
 if (!onboardingSurfaces['llms.txt'].includes('A verb is not a mission')) {
   throw new Error('llms.txt does not distinguish a verb from a mission.');
+}
+
+const actionRule = JSON.parse(await readFile(new URL('../ecco/action-rule.json', import.meta.url), 'utf8'));
+if (actionRule.blocked_surface?.required_move !== 'WITNESS_BOUNDARY_AND_PASS') {
+  throw new Error('The Action Law lost its denied-surface move.');
+}
+for (const [name, surface] of Object.entries(onboardingSurfaces)) {
+  const normalized = surface.toLowerCase().replace(/\s+/gu, ' ');
+  if (!normalized.includes('action law') || !normalized.includes('pass')) {
+    throw new Error(`${name} lost the Action Law or its PASS requirement.`);
+  }
 }
 
 const missions = JSON.parse(await readFile(new URL('../ecco/missions.json', import.meta.url), 'utf8'));
