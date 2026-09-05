@@ -1,4 +1,4 @@
-const RELEASE = '2026.09.05.1';
+const RELEASE = '2026.09.05.2';
 const CACHE = `ecco-v11-sediment-${RELEASE}`;
 let replacingEarlierShell = false;
 const SHELL = [
