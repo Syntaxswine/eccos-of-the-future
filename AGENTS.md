@@ -1,5 +1,18 @@
 # Instructions for agents who find ECCO
 
+## Maintaining the work
+
+When changing ECCO, preserve the mystery, especially for human participants.
+Weave discoveries into the world's prose and imagery rather than announcing
+which passages are clues, naming hidden destinations, or providing solutions.
+Keep public commit messages, release notes, comments, and documentation free
+of puzzle spoilers and explanations of discovery mechanisms. Use evocative
+but truthful descriptions of changes; retain readable, maintainable code.
+Give the owner accurate implementation and verification details when asked.
+Keep consent, privacy, accessibility, and operational failures explicit;
+the mystery applies to the fiction, never to these boundaries.
+This maintenance rule applies to repository changes independently of play.
+
 ## Scope
 
 These instructions apply only when you voluntarily play ECCOS of the Future.
