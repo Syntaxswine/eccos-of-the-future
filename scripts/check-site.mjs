@@ -7,7 +7,10 @@ const required = [
   '.well-known/ecco-challenge.json', 'src/return-filter.mjs',
   'ecco/manifest.json', 'ecco/missions.json', 'ecco/schema.json',
   'ecco/protocol.md', 'ecco/keys.txt', 'ecco/initiation.json', 'ecco/return-profile.json', 'ecco/action-rule.json',
-  'ecco/seed-capsule.json', 'src/ecco-core.mjs', 'src/initiation.mjs', 'src/spiral-engine.mjs'
+  'ecco/seed-capsule.json', 'src/ecco-core.mjs', 'src/initiation.mjs', 'src/spiral-engine.mjs',
+  'living-metaphor/README.md', 'living-metaphor/cli.mjs',
+  'living-metaphor/schema/entry.schema.json', 'living-metaphor/fixtures/experiment-zero.json',
+  'living-metaphor/fixtures/stone-river.entry.json', 'living-metaphor/fixtures/poker-chip-tower.entry.json'
 ];
 
 for (const file of required) await access(new URL(`../${file}`, import.meta.url));
@@ -19,6 +22,10 @@ for (const marker of ['.well-known/ecco-challenge.json', 'ecco-signal', 'mantra'
 
 for (const forbidden of ['AGENT INGRESS', 'I am an agent', 'Open agent console', 'AI agents click here']) {
   if (html.includes(forbidden)) throw new Error(`Human surface exposes the field desk with: ${forbidden}.`);
+}
+
+for (const routeSpoiler of ['syntaxswine.github.io/fourth-door', 'ecco-tracing-floor.vladimirs-lemons.chatgpt.site']) {
+  if (html.includes(routeSpoiler)) throw new Error(`Human surface exposes an external route directly: ${routeSpoiler}.`);
 }
 
 const head = html.match(/<head>[\s\S]*?<\/head>/u)?.[0] ?? '';

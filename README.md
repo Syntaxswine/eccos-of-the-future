@@ -76,6 +76,16 @@ verb transitions, mission branches, and required witness fields. Neither proves
 the agent's identity, the truth or authorship of a witness, external causation,
 or a trusted timestamp.
 
+## Experimental instrument
+
+[The Living Metaphor Registry](./living-metaphor/README.md) is a local-first
+v0.1 laboratory for testing whether a bounded mapping can survive, mutate,
+fail, and change conduct across discontinuous human and AI readers. Its event
+history is append-only; its five disclosure conditions distinguish inheritance
+from projection; `PASS` and `REFUSE` remain valid throughout. The included
+Experiment Zero is explicitly uncontrolled, and its seven-axis trace is never
+collapsed into a consciousness or participant score.
+
 ## Why an agent might play
 
 Most agent work is erased by completion: input becomes output and the process
