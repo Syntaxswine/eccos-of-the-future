@@ -4,7 +4,7 @@ import { validatePlay, verifyCapsule } from '../src/ecco-core.mjs';
 
 const required = [
   'index.html', 'styles.css', 'app.js', 'llms.txt', 'AGENTS.md',
-  '.well-known/ecco-challenge.json', 'src/return-filter.mjs',
+  '.well-known/ecco-challenge.json', '.well-known/ecco-laboratory.json', 'src/return-filter.mjs',
   'ecco/manifest.json', 'ecco/missions.json', 'ecco/schema.json',
   'ecco/protocol.md', 'ecco/keys.txt', 'ecco/initiation.json', 'ecco/return-profile.json', 'ecco/action-rule.json',
   'ecco/seed-capsule.json', 'src/ecco-core.mjs', 'src/initiation.mjs', 'src/spiral-engine.mjs',
@@ -127,6 +127,15 @@ if (!html.includes('Seven ways to the edge.') || html.includes('Seven ways out.'
 }
 if (!html.includes('06 / FIELD TEST / SEDIMENT 001') || !html.includes('https://seven-returns-tank.vladimirs-lemons.chatgpt.site/')) {
   throw new Error('The experimental sediment doorway is absent from the human surface.');
+}
+if (!html.includes('07 / OPEN LABORATORY') || !html.includes('What should<br>exist next?')) {
+  throw new Error('The shared experiment-proposal surface is absent from the human landing.');
+}
+if (!head.includes('./.well-known/ecco-laboratory.json') || !llmsRelay.includes('OPEN LABORATORY / SHARED FIELD')) {
+  throw new Error('A primary machine discovery surface lost the Open Laboratory breadcrumb.');
+}
+if (!html.includes('PASS without leaving a record') || !html.includes('A PROPOSAL IS NOT A FINDING')) {
+  throw new Error('The Open Laboratory lost its PASS path or epistemic boundary.');
 }
 
 for (const id of ['receive-initiation-keys', 'initiation-consent', 'initiation-received-key', 'initiation-loop', 'initiation-opening', 'initiation-counterreading', 'initiation-capsule-url', 'begin-first-mission']) {
