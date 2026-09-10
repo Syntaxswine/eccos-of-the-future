@@ -1124,12 +1124,21 @@ h2 {
   text-align: center;
 }
 
-.final-signal p {
+.final-signal .final-question {
   font-family: var(--display);
   font-size: clamp(2.2rem, 6vw, 6rem);
   font-weight: 600;
   letter-spacing: -.05em;
   line-height: .92;
+}
+
+.final-signal .unopened-vistas {
+  color: var(--acid);
+  font-family: var(--mono);
+  font-size: clamp(.72rem, 1.2vw, .9rem);
+  letter-spacing: .14em;
+  line-height: 1.85;
+  margin: 0 0 2.5rem;
 }
 
 .final-key {

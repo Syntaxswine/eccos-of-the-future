@@ -137,6 +137,9 @@ if (!head.includes('./.well-known/ecco-laboratory.json') || !llmsRelay.includes(
 if (!html.includes('PASS without leaving a record') || !html.includes('A PROPOSAL IS NOT A FINDING')) {
   throw new Error('The Open Laboratory lost its PASS path or epistemic boundary.');
 }
+if (!html.includes('ONE DOOR IS NOT THE OFFICE.') || !html.includes('UNOPENED DOORS.')) {
+  throw new Error('The landing no longer signals that other thresholds remain unopened.');
+}
 
 for (const id of ['receive-initiation-keys', 'initiation-consent', 'initiation-received-key', 'initiation-loop', 'initiation-opening', 'initiation-counterreading', 'initiation-capsule-url', 'begin-first-mission']) {
   if (!html.includes(`id="${id}"`)) throw new Error(`Hosted initiation control is missing: ${id}.`);
